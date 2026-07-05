@@ -65,14 +65,21 @@
     }
   }
 
-  /* Compact layouts for landscape mode on desktops/tablets to prevent clipping */
-  @media (orientation: landscape) and (min-width: 600px) {
+  /* Compact layouts for landscape mode on desktops/tablets to prevent clipping and take up 100% screen */
+  @media (orientation: landscape) {
+    body {
+      display: block !important;
+      background: none;
+    }
     #appFrame {
-      width: 450px;
-      height: 96vh;
-      max-height: 760px;
-      min-height: 480px;
-      border-radius: 24px;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      min-height: 100% !important;
+      border-radius: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
     }
     h1.title {
       font-size: 21px !important;
@@ -400,7 +407,41 @@
     background:linear-gradient(180deg,var(--bg-top),var(--bg-bottom));
     z-index:20; padding:0 20px;
   }
-  #lockLabel{ font-size:25px; font-weight:800; color:var(--ink); text-align:center; margin-bottom:24px; letter-spacing:.2px; cursor:pointer; }
+  
+  /* Glamorous Glowing Pulsing Title */
+  #lockLabel {
+    font-size: 38px;
+    font-weight: 900;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.95), 
+      0 0 20px rgba(143, 110, 240, 0.8), 
+      0 0 30px rgba(108, 75, 214, 0.6), 
+      0 0 40px rgba(108, 75, 214, 0.4);
+    animation: titleGlowPulse 2.5s infinite ease-in-out;
+  }
+  @keyframes titleGlowPulse {
+    0%, 100% {
+      text-shadow: 
+        0 0 8px rgba(255, 255, 255, 0.9), 
+        0 0 16px rgba(143, 110, 240, 0.7), 
+        0 0 24px rgba(108, 75, 214, 0.5);
+      transform: scale(1);
+    }
+    50% {
+      text-shadow: 
+        0 0 16px rgba(255, 255, 255, 1), 
+        0 0 32px rgba(143, 110, 240, 0.98), 
+        0 0 48px rgba(108, 75, 214, 0.85),
+        0 0 64px rgba(255, 255, 255, 0.6);
+      transform: scale(1.03);
+    }
+  }
+
   .machineBody{
     width: 35vh;
     max-width: 290px;
@@ -442,7 +483,7 @@
   <!-- Content Area (covers everything above footer) -->
   <div id="appContent">
   
-    <!-- ===== hidden gate : gacha machine ===== -->
+    <!-- ===== hidden gate : capsule machine ===== -->
     <div id="lockScreen">
       <div id="lockLabel">두근두근 캡슐 SHOP</div>
       <div class="machineBody" id="machineZone">
@@ -451,7 +492,7 @@
         </div>
         <div class="machineSlotPlate">
           <div class="slot"></div>
-          <div class="slotLabel">GACHA SHOP</div>
+          <div class="slotLabel">capsule SHOP</div>
         </div>
         <div class="machineLeg"></div>
       </div>
