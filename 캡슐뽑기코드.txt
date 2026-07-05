@@ -598,8 +598,8 @@
 
   <!-- Professional Glassmorphic Footer -->
   <div class="brandFooter">
-    <div class="footerLogo"><span class="logoIcon">🎬</span>minari ssam</div>
-    <div class="footerRights">© 2026 minari ssam. 모든 권리 보유.</div>
+    <div class="footerLogo"><span class="logoIcon">🎬</span>MINARI STUDIO</div>
+    <div class="footerRights">© 2026 minari ssam. All right reserced.</div>
   </div>
 </div>
 
