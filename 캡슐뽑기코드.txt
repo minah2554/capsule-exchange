@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=no">
+<title>두근두근 캡슐샵</title>
+<style>
+  @font-face {
+    font-family: 'Goyang';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Goyang.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+  }
+  :root{
+    --bg-top:#efe7ff;
+    --bg-bottom:#d9c7ff;
+    --purple-deep:#6c4bd6;
+    --purple-mid:#8f6ef0;
+    --lilac:#c9b6ff;
+    --ink:#2a1f4d;
+    --ink-soft:#6b5f96;
+    --gold:#ffd66b;
+    --card:#ffffff;
+    --notch-color:#dccdfa;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{
+    margin:0; padding:0; height:100%; width:100%; overflow:hidden;
+    font-family:'Goyang',"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif;
+    background:linear-gradient(180deg,var(--bg-top),var(--bg-bottom));
+    color:var(--ink);
+    -webkit-user-select:none; user-select:none;
+  }
+
+  /* ===== 가상 프레임: 어떤 화면 비율이든 잘리지 않고 자동으로 맞춰 축소/확대 ===== */
+  #appFrame{
+    position:fixed; width:390px; height:844px; top:50%; left:50%;
+    margin-top:-422px; margin-left:-195px;
+    transform-origin:center center;
+    overflow:hidden;
+    background:linear-gradient(180deg,var(--bg-top),var(--bg-bottom));
+    box-shadow:0 30px 90px rgba(60,30,110,.28);
+    border-radius:0;
+  }
+
+  /* ---------- shared ---------- */
+  .screen{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    opacity:0; pointer-events:none; transition:opacity .35s ease;
+  }
+  .screen.active{ opacity:1; pointer-events:auto; }
+
+  .topbar{ display:flex; align-items:center; justify-content:space-between; padding:22px 22px 4px; }
+  .backBtn{
+    width:40px; height:40px; border-radius:50%; border:none;
+    background:rgba(255,255,255,.55); font-size:21px; color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .ticketBadge{
+    display:flex; align-items:center; gap:7px;
+    background:#fff; padding:9px 16px; border-radius:999px;
+    box-shadow:0 4px 14px rgba(108,75,214,.18);
+    font-weight:700; font-size:16px; white-space:nowrap;
+  }
+  .ticketBadge span.icon{ font-size:17px; }
+
+  h1.title{
+    text-align:center; font-size:26px; line-height:1.45; font-weight:800;
+    margin:20px 20px 6px; color:var(--ink);
+  }
+
+  /* ---------- ball / capsule component (shared look) ---------- */
+  .ballDome{
+    border-radius:50%; position:relative; overflow:hidden;
+    background:radial-gradient(circle at 32% 24%, rgba(255,255,255,.95), rgba(255,255,255,.12) 45%, rgba(255,255,255,.04) 70%),
+               radial-gradient(circle at 50% 62%, #f4eeff, #e2d3ff 72%);
+    box-shadow: inset 0 -18px 40px rgba(140,100,230,.28), inset 0 16px 30px rgba(255,255,255,.9), 0 18px 38px rgba(120,80,200,.22);
+  }
+  .ballField{ position:absolute; inset:0; }
+  .capBall{
+    position:absolute; border-radius:50%;
+    box-shadow: inset -8px -10px 16px rgba(60,30,110,.22), inset 6px 8px 14px rgba(255,255,255,.85), 0 6px 10px rgba(80,40,150,.22);
+    overflow:hidden; animation:floaty 3.6s ease-in-out infinite;
+  }
+  .capBall .half{ position:absolute; inset:0; }
+  .capBall .halfA{ background:var(--cA); clip-path:polygon(0 0,50% 0,50% 100%,0 100%); }
+  .capBall .halfB{ background:var(--cB); clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%); }
+  .capBall .seam{ position:absolute; top:0; bottom:0; left:50%; width:2.5px; background:rgba(255,255,255,.8); transform:translateX(-50%); }
+  .capBall .gloss{ position:absolute; width:38%; height:24%; top:13%; left:16%; background:rgba(255,255,255,.92); border-radius:50%; filter:blur(1.5px); }
+  @keyframes floaty{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-5px) rotate(3deg); }
+  }
+
+  /* ---------- main screen ---------- */
+  .orbWrap{ flex:1; display:flex; align-items:center; justify-content:center; min-height:0; }
+  .glassBall{ width:320px; height:320px; }
+  .glassBall .ballField{ inset:6%; }
+
+  .ticketRow{ display:flex; justify-content:center; align-items:center; gap:18px; margin:4px 0 6px; }
+  .ticketRow .label{ font-size:14.5px; color:var(--ink-soft); font-weight:700; }
+  .stepBtn{
+    width:36px; height:36px; border-radius:50%; border:none; background:#fff;
+    font-size:19px; font-weight:800; color:var(--purple-deep); box-shadow:0 3px 8px rgba(108,75,214,.15);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+
+  .tickerWrap{ overflow:hidden; padding:4px 0 12px; flex-shrink:0; }
+  .ticker{ display:flex; gap:10px; white-space:nowrap; animation:scrollTicker 16s linear infinite; padding:0 18px; }
+  @keyframes scrollTicker{ 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+  .tickChip{
+    background:#fff; border-radius:999px; padding:9px 16px; font-size:13px; font-weight:600;
+    color:var(--ink-soft); box-shadow:0 3px 10px rgba(108,75,214,.12); flex:0 0 auto;
+  }
+  .tickChip b{ color:var(--purple-deep); }
+
+  .bottomArea{ padding:0 20px 58px; flex-shrink:0; }
+  .spinBtn{
+    width:100%; padding:18px; border:none; border-radius:16px;
+    background:var(--ink); color:#fff; font-size:17px; font-weight:800; letter-spacing:.3px;
+    cursor:pointer; transition: transform 0.1s ease;
+  }
+  .spinBtn:active{ transform: scale(0.98); }
+  .spinBtn:disabled{ background:#b7afcf; cursor:not-allowed; }
+  .hintText{ text-align:center; font-size:12.5px; color:var(--ink-soft); margin-top:9px; }
+
+  /* ---------- brand footer chip (겹치지 않도록 프레임 하단 고정) ---------- */
+  .brandChip{
+    position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:6px;
+    background:linear-gradient(135deg,#2a1f4d,#4a3792);
+    color:#f4eeff; padding:7px 16px 7px 11px; border-radius:999px;
+    font-size:11.5px; font-weight:700; letter-spacing:.4px;
+    box-shadow:0 6px 16px rgba(42,31,77,.35);
+    z-index:30;
+  }
+  .brandChip .dot{ width:15px; height:15px; border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center; font-size:9px; }
+
+  /* ---------- result screen ---------- */
+  #screenResult{ align-items:center; }
+  .resultTitle{ text-align:center; font-size:24px; font-weight:800; margin-top:34px; line-height:1.5; flex-shrink:0; }
+  .resultStage{ flex:1; width:100%; display:flex; align-items:center; justify-content:center; position:relative; min-height:0; perspective:800px; }
+
+  .capsuleBig{
+    width:200px; height:200px; border-radius:50%; position:relative;
+    box-shadow:0 0 60px rgba(190,150,255,.7), inset -14px -16px 24px rgba(60,30,110,.25), inset 12px 14px 22px rgba(255,255,255,.9);
+    overflow:hidden;
+    animation: capsuleFloat 3s ease-in-out infinite;
+  }
+  @keyframes capsuleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .capsuleBig .half{ position:absolute; inset:0; }
+  .capsuleBig .halfA{ background:linear-gradient(160deg,#ffffff,var(--cA)); clip-path:polygon(0 0,50% 0,50% 100%,0 100%); }
+  .capsuleBig .halfB{ background:linear-gradient(160deg,#ffffff,var(--cB)); clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%); }
+  .capsuleBig .seam{ position:absolute; top:0; bottom:0; left:50%; width:3px; background:rgba(255,255,255,.85); transform:translateX(-50%); }
+  .capsuleBig .gloss{ position:absolute; width:36%; height:22%; top:12%; left:16%; background:rgba(255,255,255,.92); border-radius:50%; filter:blur(2px); }
+  
+  .capsuleBig.shaking{ animation:shake3d .26s ease-in-out infinite; }
+  @keyframes shake3d{
+    0%,100%{ transform:translate(0,0) rotateY(0deg) rotateZ(0deg); }
+    25%{ transform:translate(-6px,3px) rotateY(-18deg) rotateZ(-4deg); }
+    75%{ transform:translate(6px,-3px) rotateY(18deg) rotateZ(4deg); }
+  }
+  
+  .capsuleBig.shuffling {
+    animation: shuffleSpin 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  @keyframes shuffleSpin {
+    0% { transform: scale(1) rotate(0deg); }
+    30% { transform: scale(1.12) rotate(-25deg); }
+    70% { transform: scale(1.15) rotate(385deg); }
+    100% { transform: scale(1) rotate(360deg); }
+  }
+
+  .capsuleBig.burst{ animation:burstPop .4s ease forwards; }
+  @keyframes burstPop{
+    0%{ transform:scale(1); opacity:1; }
+    60%{ transform:scale(1.6); opacity:.35; }
+    100%{ transform:scale(2.3); opacity:0; }
+  }
+
+  .couponCard{
+    position:absolute; width:340px; opacity:0; transform:scale(.6);
+    transition:opacity .35s ease, transform .35s cubic-bezier(.2,1.4,.4,1);
+    background:var(--card); border-radius:22px;
+    box-shadow:0 16px 36px rgba(108,75,214,.3);
+    display:flex; align-items:stretch; overflow:hidden;
+    z-index: 10;
+  }
+  .couponCard.show{
+    opacity:1; transform:scale(1);
+    animation: cardGlowPulse 2.8s infinite ease-in-out;
+  }
+  @keyframes cardGlowPulse {
+    0%, 100% {
+      box-shadow: 0 16px 36px rgba(108,75,214,.35), 0 0 18px rgba(255, 214, 107, 0.4), 0 0 35px rgba(143, 110, 240, 0.2);
+    }
+    50% {
+      box-shadow: 0 16px 45px rgba(108,75,214,.5), 0 0 38px rgba(255, 214, 107, 0.85), 0 0 45px rgba(255, 255, 255, 0.5), 0 0 65px rgba(143, 110, 240, 0.6);
+    }
+  }
+
+  .couponStub{
+    flex:0 0 38%; background:linear-gradient(160deg,var(--purple-mid),var(--purple-deep));
+    display:flex; align-items:center; justify-content:center; position:relative;
+  }
+  .couponEmoji{ font-size:64px; filter:drop-shadow(0 6px 10px rgba(0,0,0,.2)); }
+  .couponStub::before, .couponStub::after{
+    content:""; position:absolute; width:20px; height:20px; border-radius:50%;
+    background:var(--notch-color); left:-10px;
+  }
+  .couponStub::before{ top:-10px; }
+  .couponStub::after{ bottom:-10px; }
+  .couponMain{ flex:1; padding:22px 18px; display:flex; flex-direction:column; justify-content:center; }
+  .couponEyebrow{ font-size:12px; font-weight:800; color:var(--purple-deep); letter-spacing:.5px; margin-bottom:8px; }
+  .couponName{ font-size:20px; font-weight:800; color:var(--ink); line-height:1.4; }
+  .dashDivider{ position:absolute; top:0; bottom:0; left:38%; width:0; border-left:2px dashed rgba(255,255,255,.6); }
+
+  .resultBottom{ padding:16px 20px 58px; display:flex; gap:12px; flex-shrink:0; }
+  .resultBottom button{
+    flex:1; padding:17px 8px; border:none; border-radius:15px; font-weight:800;
+    font-size:15px; white-space:nowrap; overflow:visible; cursor:pointer;
+  }
+  
+  @keyframes buttonGlowBlink {
+    0%, 100% {
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.4), 0 3px 10px rgba(108,75,214,.15);
+    }
+    50% {
+      box-shadow: 0 0 22px rgba(255, 255, 255, 0.95), 0 0 10px rgba(255, 255, 255, 0.6), 0 3px 15px rgba(108,75,214,.3);
+    }
+  }
+  
+  .btnAgain{ background:var(--purple-deep); color:#fff !important; }
+  .btnClose{ background:#fff; color:var(--ink) !important; box-shadow:0 3px 10px rgba(108,75,214,.15); }
+  
+  .btnClose, .btnAgain {
+    animation: buttonGlowBlink 1.8s infinite ease-in-out;
+  }
+  
+  /* Pre-open button styles */
+  .btnShuffle {
+    background: linear-gradient(135deg, var(--purple-mid), var(--purple-deep));
+    color: #fff !important;
+    box-shadow: 0 4px 14px rgba(108,75,214,.25);
+    transition: all 0.2s ease;
+  }
+  .btnShuffle:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .btnOpenCapsule {
+    background: var(--ink);
+    color: #fff !important;
+    box-shadow: 0 4px 14px rgba(42,31,77,.2);
+    transition: all 0.2s ease;
+  }
+  .btnOpenCapsule:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  canvas#fx{ position:absolute; inset:0; pointer-events:none; z-index: 5; }
+
+  /* ---------- lock screen : gacha machine ---------- */
+  #lockScreen{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:linear-gradient(180deg,var(--bg-top),var(--bg-bottom));
+    z-index:20; padding:0 20px;
+  }
+  #lockLabel{ font-size:25px; font-weight:800; color:var(--ink); text-align:center; margin-bottom:24px; letter-spacing:.2px; cursor:pointer; }
+  .machineBody{
+    width:300px; border-radius:30px; padding:22px 22px 26px;
+    background:linear-gradient(165deg,#ffffff,#efe4ff 60%,#e3d4ff);
+    box-shadow:0 22px 46px rgba(108,75,214,.3), inset 0 2px 0 rgba(255,255,255,.8);
+    display:flex; flex-direction:column; align-items:center; position:relative;
+  }
+  .machineDome{ width:100%; aspect-ratio:1/1; margin-bottom:18px; }
+  .machineDome .ballField{ inset:8%; }
+  .machineSlotPlate{
+    width:80%; background:var(--purple-deep); border-radius:14px; padding:16px 10px 14px;
+    display:flex; flex-direction:column; align-items:center; gap:9px; position:relative;
+    box-shadow:inset 0 3px 6px rgba(0,0,0,.25); overflow:visible;
+  }
+  .slot{ width:60px; height:11px; background:var(--ink); border-radius:6px; box-shadow:inset 0 2px 3px rgba(0,0,0,.5); position:relative; z-index:2; }
+  .slotLabel{ font-size:11.5px; color:rgba(255,255,255,.88); font-weight:700; letter-spacing:.4px; }
+  .machineLeg{ width:60%; height:11px; background:linear-gradient(180deg,#d8c6fb,#c3adf5); border-radius:0 0 12px 12px; margin-top:-2px; }
+
+  .coin{
+    position:absolute; width:44px; height:44px; border-radius:50%; top:-64px; left:50%;
+    transform:translateX(-50%) scale(1);
+    background:radial-gradient(circle at 35% 30%, #fff6d5, var(--gold) 60%, #d8a83a 100%);
+    box-shadow:0 4px 12px rgba(0,0,0,.28);
+    opacity:0; font-size:20px; display:flex; align-items:center; justify-content:center; z-index:1;
+  }
+  .coin.drop{ animation:coinDrop .7s cubic-bezier(.5,0,.8,1) forwards; }
+  @keyframes coinDrop{
+    0%{ opacity:1; top:-64px; transform:translateX(-50%) scale(1); }
+    72%{ opacity:1; top:9px; transform:translateX(-50%) scale(1); }
+    88%{ opacity:1; top:11px; transform:translateX(-50%) scale(.45); }
+    100%{ opacity:0; top:12px; transform:translateX(-50%) scale(.1); }
+  }
+</style>
+</head>
+<body>
+<div id="appFrame">
+
+  <!-- ===== hidden gate : gacha machine ===== -->
+  <div id="lockScreen">
+    <div id="lockLabel">학급 쿠폰 가챠샵</div>
+    <div class="machineBody" id="machineZone">
+      <div class="machineDome ballDome">
+        <div class="ballField" id="lockBallField"></div>
+      </div>
+      <div class="machineSlotPlate">
+        <div class="slot"></div>
+        <div class="slotLabel">GACHA SHOP</div>
+      </div>
+      <div class="machineLeg"></div>
+    </div>
+  </div>
+
+  <!-- ===== main app ===== -->
+  <div id="app" style="position:absolute; inset:0; display:none;">
+    <div id="screenMain" class="screen active">
+      <div class="topbar">
+        <button class="backBtn" onclick="relock()">‹</button>
+        <div class="ticketBadge"><span class="icon">🍀</span><span id="ticketCount">15</span>장</div>
+      </div>
+
+      <h1 class="title">청소면제권 5장이면<br>캡슐 하나를 열 수 있어요</h1>
+
+      <div class="ticketRow">
+        <button class="stepBtn" onclick="adjustTicket(-5)">−</button>
+        <span class="label">보유 청소면제권</span>
+        <button class="stepBtn" onclick="adjustTicket(5)">＋</button>
+      </div>
+
+      <div class="orbWrap">
+        <div class="glassBall ballDome">
+          <div class="ballField" id="orbBalls"></div>
+        </div>
+      </div>
+
+      <div class="tickerWrap">
+        <div class="ticker" id="tickerRow"></div>
+      </div>
+
+      <div class="bottomArea">
+        <button class="spinBtn" id="spinBtn" onclick="startSpin()">캡슐 열기 (5장 사용)</button>
+        <div class="hintText">청소면제권 5장 = 캡슐 1회 · 확률은 캡슐마다 랜덤이에요</div>
+      </div>
+    </div>
+
+    <div id="screenResult" class="screen">
+      <div class="resultTitle" id="resultTitleText">두근두근<br>내가 오늘 받을 상품은?</div>
+      <div class="resultStage">
+        <div class="capsuleBig" id="capsule" onclick="capsuleTapOpen()" style="cursor: pointer;">
+          <div class="half halfA"></div><div class="half halfB"></div>
+          <div class="seam"></div><div class="gloss"></div>
+        </div>
+        <div class="couponCard" id="resultCard">
+          <div class="couponStub"><span class="couponEmoji" id="resultEmoji"></span></div>
+          <div class="dashDivider"></div>
+          <div class="couponMain">
+            <div class="couponEyebrow">🎉 축하해요! 당첨 쿠폰</div>
+            <div class="couponName" id="resultName"></div>
+          </div>
+        </div>
+        <canvas id="fx"></canvas>
+      </div>
+      
+      <!-- Buttons shown before the capsule is opened -->
+      <div class="resultBottom" id="preOpenButtons" style="display: flex;">
+        <button class="btnShuffle" onclick="shuffleAction()">🔮 랜덤 섞기</button>
+        <button class="btnOpenCapsule" onclick="capsuleTapOpen()">✨ 바로 열기</button>
+      </div>
+      
+      <!-- Buttons shown after the capsule is opened -->
+      <div class="resultBottom" id="resultButtons" style="display: none;">
+        <button class="btnClose" onclick="closeResult()">닫기</button>
+        <button class="btnAgain" id="btnAgainSpin" onclick="startSpin()">한 번 더 열기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="brandChip"><span class="dot">🍀</span>by. MINARI</div>
+</div>
+
+<script>
+/* =========================================================
+   상품 목록 (가중치 = 제시된 확률 값을 그대로 사용, 상대비율로 정규화됨)
+========================================================= */
+const PRIZES = [
+  { name:"빙고 1개 패스권",              emoji:"🎟️", weight:1   },
+  { name:"청소면제권 1장 되돌려주기",     emoji:"🧹", weight:3   },
+  { name:"청소면제권 2장 되돌려주기",     emoji:"🧹", weight:3   },
+  { name:"청소면제권 3장 되돌려주기",     emoji:"🧹", weight:2   },
+  { name:"청소면제권 5장 되돌려주기",     emoji:"🧹", weight:2   },
+  { name:"소소한 과자 1개",              emoji:"🍪", weight:10  },
+  { name:"담임쌤과 사진 촬영권",          emoji:"📷", weight:3   },
+  { name:"담임쌤 친필 싸인권",           emoji:"✏️", weight:3   },
+  { name:"매점 상품권 1,000원",          emoji:"💵", weight:1   },
+  { name:"하리보 젤리 1봉지",            emoji:"🐻", weight:10  },
+  { name:"내 옆자리 1명 PICK",           emoji:"🪑", weight:2   },
+  { name:"내 앞뒤옆 4자리 PICK",         emoji:"✨", weight:1   },
+  { name:"음료수 1개",                  emoji:"🥤", weight:5   },
+  { name:"꽝",                         emoji:"💥", weight:3   },
+  { name:"지각 3번 리셋",                emoji:"⏰", weight:1   },
+  { name:"램프의 요정 소원권",           emoji:"🧞", weight:0.2 },
+  { name:"한 번 더 뽑기",               emoji:"🔁", weight:1   },
+];
+const TOTAL_WEIGHT = PRIZES.reduce((s,p)=>s+p.weight,0);
+
+function pickPrize(){
+  let r = Math.random() * TOTAL_WEIGHT;
+  for(const p of PRIZES){
+    if(r < p.weight) return p;
+    r -= p.weight;
+  }
+  return PRIZES[PRIZES.length-1];
+}
+
+// Fisher-Yates array shuffling
+function shufflePrizes() {
+  for (let i = PRIZES.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = PRIZES[i];
+    PRIZES[i] = PRIZES[j];
+    PRIZES[j] = temp;
+  }
+}
+
+/* =========================================================
+   티켓(청소면제권) 상태 - 5장 단위
+========================================================= */
+let tickets = 15;
+function renderTickets(){ document.getElementById('ticketCount').textContent = tickets; refreshSpinBtn(); }
+function adjustTicket(n){ tickets = Math.max(0, tickets+n); renderTickets(); }
+function refreshSpinBtn(){
+  const btn = document.getElementById('spinBtn');
+  const enough = tickets >= 5;
+  btn.disabled = !enough;
+  btn.textContent = enough ? "캡슐 열기 (5장 사용)" : "청소면제권이 부족해요";
+}
+
+/* =========================================================
+   유리구슬 속 캡슐 배치 (참고 이미지와 동일한 구성)
+========================================================= */
+const BALL_LAYOUT = [
+  {x:32,y:14,s:34,cA:'#eaf6ff',cB:'#59b9ec'},
+  {x:58,y:12,s:32,cA:'#eaf6ff',cB:'#4fa9e6'},
+  {x:12,y:32,s:30,cA:'#f4ecff',cB:'#b79af3'},
+  {x:40,y:32,s:36,cA:'#f4ecff',cB:'#a78bfa'},
+  {x:68,y:34,s:32,cA:'#ffffff',cB:'#dbe6f5'},
+  {x:2, y:52,s:32,cA:'#eaf6ff',cB:'#59b9ec'},
+  {x:28,y:56,s:34,cA:'#ffffff',cB:'#dbe6f5'},
+  {x:54,y:56,s:34,cA:'#f4ecff',cB:'#a78bfa'},
+  {x:78,y:50,s:30,cA:'#eaf6ff',cB:'#4fa9e6'},
+  {x:38,y:74,s:30,cA:'#f4ecff',cB:'#b79af3'},
+];
+
+function buildBallField(containerId){
+  const wrap = document.getElementById(containerId);
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  BALL_LAYOUT.forEach((b,i)=>{
+    const el = document.createElement('div');
+    el.className = 'capBall';
+    el.style.left = b.x+'%';
+    el.style.top = b.y+'%';
+    el.style.width = b.s+'%';
+    el.style.height = b.s+'%';
+    el.style.setProperty('--cA', b.cA);
+    el.style.setProperty('--cB', b.cB);
+    el.style.animationDelay = (i*0.18)+'s';
+    el.innerHTML = '<div class="half halfA"></div><div class="half halfB"></div><div class="seam"></div><div class="gloss"></div>';
+    wrap.appendChild(el);
+  });
+}
+
+/* 뽑기 캡슐 색상 - 매번 랜덤 */
+const CAPSULE_COLOR_PAIRS = [
+  ['#eaf6ff','#4fa9e6'],
+  ['#f4ecff','#a78bfa'],
+  ['#fff0f7','#ff8fc0'],
+  ['#eafff4','#5fd694'],
+  ['#fff8e6','#ffc94d'],
+  ['#f2f5ff','#98a6d8'],
+];
+function randomCapsuleColors(){
+  return CAPSULE_COLOR_PAIRS[Math.floor(Math.random()*CAPSULE_COLOR_PAIRS.length)];
+}
+
+const recentSample = ["민준 🍪 소소한 과자","도윤 🥤 음료수","시우 🧞 램프의 요정!","하준 💥 꽝","지호 🐻 하리보 젤리","준서 🪑 옆자리 PICK"];
+function buildTicker(){
+  const row = document.getElementById('tickerRow');
+  const items = [...recentSample, ...recentSample];
+  row.innerHTML = items.map(t=>`<div class="tickChip"><b>${t.split(' ')[0]}</b> ${t.slice(t.indexOf(' ')+1)} 당첨!</div>`).join('');
+}
+
+/* =========================================================
+   사운드 (Web Audio API - 외부 파일 없이 합성)
+========================================================= */
+let actx;
+function audioCtx(){ if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)(); return actx; }
+
+function playSuspense(){
+  const ctx = audioCtx();
+  const dur = 1.6;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(140, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(420, ctx.currentTime+dur);
+  gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.09, ctx.currentTime+0.2);
+  for(let t=0.2;t<dur;t+=0.12){
+    gain.gain.exponentialRampToValueAtTime(0.11, ctx.currentTime+t);
+    gain.gain.exponentialRampToValueAtTime(0.05, ctx.currentTime+t+0.06);
+  }
+  gain.gain.exponentialRampToValueAtTime(0.14, ctx.currentTime+dur);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(); osc.stop(ctx.currentTime+dur);
+}
+
+function playWin(){
+  const ctx = audioCtx();
+  const now = ctx.currentTime;
+  
+  // Base chord: C major 9 (C4, E4, G4, B4, D5) -> frequencies: 261.63, 329.63, 392.00, 493.88, 587.33
+  const chord = [261.63, 329.63, 392.00, 493.88, 587.33];
+  
+  // 1. Warm synthesizer pad chord for rich harmonic background
+  chord.forEach((freq, idx) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.type = idx % 2 === 0 ? 'triangle' : 'sine';
+    osc.frequency.setValueAtTime(freq, now);
+    osc.detune.setValueAtTime((Math.random() - 0.5) * 8, now);
+    
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.12, now + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start(now);
+    osc.stop(now + 2.0);
+  });
+  
+  // 2. Sparkling crystalline arpeggio (magical chime notes)
+  const chimeNotes = [523.25, 587.33, 659.25, 783.99, 1046.5, 1174.66, 1318.51, 1567.98];
+  chimeNotes.forEach((freq, idx) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+    
+    gain.gain.setValueAtTime(0, now + idx * 0.06);
+    gain.gain.linearRampToValueAtTime(0.08, now + idx * 0.06 + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.4);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start(now + idx * 0.06);
+    osc.stop(now + idx * 0.06 + 0.5);
+  });
+  
+  // 3. Uplifting sweeping swoosh sound
+  const sweepOsc = ctx.createOscillator();
+  const sweepGain = ctx.createGain();
+  sweepOsc.type = 'sine';
+  sweepOsc.frequency.setValueAtTime(150, now);
+  sweepOsc.frequency.exponentialRampToValueAtTime(800, now + 0.4);
+  
+  sweepGain.gain.setValueAtTime(0, now);
+  sweepGain.gain.linearRampToValueAtTime(0.1, now + 0.15);
+  sweepGain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+  
+  sweepOsc.connect(sweepGain);
+  sweepGain.connect(ctx.destination);
+  sweepOsc.start(now);
+  sweepOsc.stop(now + 0.7);
+}
+
+function playCoin(){
+  const ctx = audioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type='square'; osc.frequency.setValueAtTime(880, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime+0.15);
+  gain.gain.setValueAtTime(0.12, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.25);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(); osc.stop(ctx.currentTime+0.25);
+}
+
+// Rapid satisfying wooden clicks/rustles to simulate shuffling
+function playShuffleSound() {
+  const ctx = audioCtx();
+  const now = ctx.currentTime;
+  
+  for (let i = 0; i < 7; i++) {
+    const time = now + i * 0.08;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(300 + Math.random() * 400, time);
+    osc.frequency.exponentialRampToValueAtTime(100, time + 0.06);
+    
+    gain.gain.setValueAtTime(0.06, time);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.06);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start(time);
+    osc.stop(time + 0.07);
+  }
+}
+
+function vibrate(pattern){ if(navigator.vibrate) navigator.vibrate(pattern); }
+
+/* =========================================================
+   화면 전환
+========================================================= */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function relock(){
+  document.getElementById('app').style.display='none';
+  document.getElementById('lockScreen').style.display='flex';
+  gateTaps = 0;
+}
+
+/* =========================================================
+   뽑기 진행
+========================================================= */
+let spinning = false;
+let isCapsuleOpened = false;
+let isShuffling = false;
+
+function startSpin(){
+  if(spinning) return;
+  const againBtn = document.getElementById('btnAgainSpin');
+  const isFree = againBtn.dataset.free === '1';
+  if(!isFree){
+    if(tickets < 5) return;
+    tickets -= 5; renderTickets();
+  }
+  againBtn.dataset.free = '0';
+  spinning = true;
+  isCapsuleOpened = false;
+  
+  // Transition to result screen
+  showScreen('screenResult');
+  
+  // Setup button views for pre-open interactive state
+  document.getElementById('preOpenButtons').style.display = 'flex';
+  document.getElementById('resultButtons').style.display = 'none';
+  
+  const card = document.getElementById('resultCard');
+  card.classList.remove('show');
+  
+  const capsule = document.getElementById('capsule');
+  capsule.className = 'capsuleBig'; // Default floating state
+  capsule.style.opacity = 1;
+  
+  const colors = randomCapsuleColors();
+  capsule.style.setProperty('--cA', colors[0]);
+  capsule.style.setProperty('--cB', colors[1]);
+  
+  document.getElementById('resultTitleText').innerHTML = "두근두근<br>내가 오늘 받을 상품은?";
+  
+  // Stop any ongoing canvas animations
+  stopCanvasLoop();
+}
+
+function shuffleAction() {
+  if (isShuffling || isCapsuleOpened) return;
+  isShuffling = true;
+  
+  const shuffleBtn = document.querySelector('.btnShuffle');
+  const openBtn = document.querySelector('.btnOpenCapsule');
+  shuffleBtn.disabled = true;
+  openBtn.disabled = true;
+  
+  const capsule = document.getElementById('capsule');
+  capsule.className = 'capsuleBig shuffling';
+  
+  playShuffleSound();
+  vibrate([30, 30, 30]);
+  
+  const title = document.getElementById('resultTitleText');
+  title.innerHTML = "열심히 쿠폰 섞는 중...🌀";
+  
+  shufflePrizes();
+  
+  setTimeout(() => {
+    capsule.className = 'capsuleBig';
+    title.innerHTML = "쿠폰이 신나게 섞였습니다! 🍀<br>어서 캡슐을 열어보세요!";
+    
+    shuffleBtn.disabled = false;
+    openBtn.disabled = false;
+    isShuffling = false;
+  }, 650);
+}
+
+function capsuleTapOpen() {
+  if (isShuffling || isCapsuleOpened) return;
+  isCapsuleOpened = true;
+  
+  // Hide pre-open button overlay immediately
+  document.getElementById('preOpenButtons').style.display = 'none';
+  
+  const capsule = document.getElementById('capsule');
+  capsule.className = 'capsuleBig shaking';
+  
+  const title = document.getElementById('resultTitleText');
+  title.innerHTML = "두근두근... 과연 결과는?";
+  
+  vibrate([40,60,40,60,120]);
+  playSuspense();
+
+  setTimeout(()=>{
+    const prize = pickPrize();
+    capsule.className = 'capsuleBig burst';
+    vibrate([15,40,15,40,200]);
+    playWin();
+    
+    // Start canvas particle looping system
+    startCanvasLoop();
+    launchConfetti();
+    
+    setTimeout(()=>{
+      capsule.style.opacity = 0;
+      
+      const card = document.getElementById('resultCard');
+      document.getElementById('resultEmoji').textContent = prize.emoji;
+      document.getElementById('resultName').textContent = prize.name;
+      card.classList.add('show');
+      
+      // Reveal final option buttons
+      document.getElementById('resultButtons').style.display = 'flex';
+      
+      const againBtn = document.getElementById('btnAgainSpin');
+      if(prize.name === "한 번 더 뽑기"){
+        againBtn.textContent = "무료 재도전";
+        againBtn.dataset.free = '1';
+      } else {
+        againBtn.textContent = "한 번 더 열기";
+        againBtn.dataset.free = '0';
+      }
+      spinning = false;
+    }, 420);
+  }, 1650);
+}
+
+function closeResult(){
+  showScreen('screenMain');
+  stopCanvasLoop();
+}
+
+/* =========================================================
+   컨페티 & Ambient Sparkle 시스템 (canvas)
+========================================================= */
+let particles = [];
+let canvasAnimId = null;
+let canvasLoopActive = false;
+
+function initCanvasFX() {
+  const canvas = document.getElementById('fx');
+  if(!canvas) return;
+  const stage = document.getElementById('screenResult').getBoundingClientRect();
+  canvas.width = stage.width;
+  canvas.height = stage.height;
+}
+
+// Draw a beautiful star shape with glow
+function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius, color, alpha) {
+  let rot = Math.PI / 2 * 3;
+  let x = cx;
+  let y = cy;
+  let step = Math.PI / spikes;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - outerRadius);
+  for (let i = 0; i < spikes; i++) {
+    x = cx + Math.cos(rot) * outerRadius;
+    y = cy + Math.sin(rot) * outerRadius;
+    ctx.lineTo(x, y);
+    rot += step;
+
+    x = cx + Math.cos(rot) * innerRadius;
+    y = cy + Math.sin(rot) * innerRadius;
+    ctx.lineTo(x, y);
+    rot += step;
+  }
+  ctx.lineTo(cx, cy - outerRadius);
+  ctx.closePath();
+  ctx.fillStyle = color;
+  ctx.globalAlpha = alpha;
+  
+  // Outer glowing aura
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 8;
+  
+  ctx.fill();
+  ctx.restore();
+}
+
+function launchConfetti(){
+  const canvas = document.getElementById('fx');
+  if (!canvas) return;
+  if (canvas.width === 0 || canvas.height === 0) {
+    initCanvasFX();
+  }
+  const colors = ['#8f6ef0','#5cc7f2','#ffd66b','#ff9ecf','#b6f0c9'];
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+  
+  // 1. Explosion burst: standard squares
+  for(let i=0; i<60; i++){
+    particles.push({
+      type: 'rect',
+      x: centerX,
+      y: centerY,
+      vx: (Math.random() - 0.5) * 14,
+      vy: (Math.random() - 1.3) * 12,
+      size: 4 + Math.random() * 6,
+      color: colors[i % colors.length],
+      rot: Math.random() * Math.PI,
+      vr: (Math.random() - 0.5) * 0.4,
+      life: 0,
+      maxLife: 80 + Math.random() * 40
+    });
+  }
+  
+  // 2. Explosion burst: shiny stars
+  const starColors = ['#ffd66b', '#ffed9e', '#ffffff'];
+  for(let i=0; i<25; i++){
+    particles.push({
+      type: 'star',
+      x: centerX,
+      y: centerY,
+      vx: (Math.random() - 0.5) * 10,
+      vy: (Math.random() - 1.1) * 10,
+      size: 6 + Math.random() * 8,
+      color: starColors[i % starColors.length],
+      rot: Math.random() * Math.PI,
+      vr: (Math.random() - 0.5) * 0.2,
+      life: 0,
+      maxLife: 90 + Math.random() * 30
+    });
+  }
+}
+
+function startCanvasLoop() {
+  if (canvasLoopActive) return;
+  canvasLoopActive = true;
+  
+  const canvas = document.getElementById('fx');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  function updateFrame() {
+    if (!canvasLoopActive) return;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Spawn ambient floating sparkles around/behind the card
+    if (Math.random() < 0.12) {
+      const colors = ['#ffd66b', '#ffffff', '#c9b6ff', '#eaf6ff'];
+      particles.push({
+        type: 'sparkle',
+        x: 40 + Math.random() * (canvas.width - 80),
+        y: canvas.height * 0.65 + (Math.random() - 0.5) * 60,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: -0.8 - Math.random() * 1.5,
+        size: 3 + Math.random() * 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rot: Math.random() * Math.PI,
+        vr: (Math.random() - 0.5) * 0.05,
+        life: 0,
+        maxLife: 120 + Math.random() * 60
+      });
+    }
+    
+    // Update and draw all particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.life++;
+      
+      if (p.life >= p.maxLife) {
+        particles.splice(i, 1);
+        continue;
+      }
+      
+      // Burst elements fall, ambient sparkles float up
+      if (p.type === 'rect' || p.type === 'star') {
+        p.vy += 0.32;
+        p.vx *= 0.98;
+      } else {
+        p.vx += Math.sin(p.life * 0.05) * 0.02; // Sway
+      }
+      
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += p.vr;
+      
+      const alpha = Math.max(0, 1 - (p.life / p.maxLife));
+      
+      if (p.type === 'rect') {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
+      } else if (p.type === 'star') {
+        drawStar(ctx, p.x, p.y, 5, p.size, p.size * 0.4, p.color, alpha);
+      } else if (p.type === 'sparkle') {
+        drawStar(ctx, p.x, p.y, 4, p.size, p.size * 0.25, p.color, alpha);
+      }
+    }
+    
+    canvasAnimId = requestAnimationFrame(updateFrame);
+  }
+  
+  canvasAnimId = requestAnimationFrame(updateFrame);
+}
+
+function stopCanvasLoop() {
+  canvasLoopActive = false;
+  if (canvasAnimId) {
+    cancelAnimationFrame(canvasAnimId);
+    canvasAnimId = null;
+  }
+  particles = [];
+  const canvas = document.getElementById('fx');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+/* =========================================================
+   비밀 입장 장치 (화면에 안내 문구 없이 동작)
+========================================================= */
+let gateTaps = 0, gateTimer = null;
+document.getElementById('lockLabel').addEventListener('click', function(){
+  gateTaps++;
+  clearTimeout(gateTimer);
+  gateTimer = setTimeout(()=>{ gateTaps = 0; }, 2200);
+  if(gateTaps >= 5){
+    gateTaps = 0;
+    dropCoin();
+  }
+});
+
+function dropCoin(){
+  const plate = document.querySelector('.machineSlotPlate');
+  const coin = document.createElement('div');
+  coin.className = 'coin drop';
+  coin.textContent = '🪙';
+  plate.appendChild(coin);
+  playCoin();
+  vibrate(30);
+  coin.addEventListener('animationend', ()=>{
+    coin.remove();
+    unlockApp();
+  });
+}
+
+function unlockApp(){
+  document.getElementById('lockScreen').style.display='none';
+  document.getElementById('app').style.display='block';
+  showScreen('screenMain');
+  vibrate([20,30,20]);
+}
+
+/* =========================================================
+   화면 비율 자동 맞춤 - 어떤 기기/PC에서도 잘리지 않게 프레임을 축소·확대
+========================================================= */
+function fitFrame(){
+  const frame = document.getElementById('appFrame');
+  const scale = Math.min(window.innerWidth/390, window.innerHeight/844);
+  frame.style.transform = 'scale('+scale+')';
+  initCanvasFX();
+}
+window.addEventListener('resize', fitFrame);
+window.addEventListener('orientationchange', fitFrame);
+fitFrame();
+
+/* =========================================================
+   초기화
+========================================================= */
+buildBallField('lockBallField');
+buildBallField('orbBalls');
+buildTicker();
+renderTickets();
+document.getElementById('app').style.display='none';
+</script>
+</body>
+</html>
