@@ -1,1341 +1,2168 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=no">
-<title>두근두근 캡슐샵</title>
-<style>
-  @font-face {
-    font-family: 'Goyang';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Goyang.woff') format('woff');
-    font-weight: normal;
-    font-display: swap;
-  }
-  :root{
-    --bg-top:#efe7ff;
-    --bg-bottom:#d9c7ff;
-    --purple-deep:#6c4bd6;
-    --purple-mid:#8f6ef0;
-    --lilac:#c9b6ff;
-    --ink:#2a1f4d;
-    --ink-soft:#6b5f96;
-    --gold:#ffd66b;
-    --card:#ffffff;
-    --notch-color:#dccdfa;
-  }
-  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-  html,body{
-    margin:0; padding:0; height:100%; width:100%; overflow:hidden;
-    font-family:'Goyang',"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif;
-    background: radial-gradient(circle at 50% 50%, #f6f0ff 0%, #dcd0ff 100%);
-    color:var(--ink);
-    -webkit-user-select:none; user-select:none;
-  }
-  
-  button, input, select, textarea {
-    font-family: 'Goyang', "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>두근두근 캡슐샵</title>
+  <style>
+    @font-face {
+      font-family: 'Goyang';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Goyang.woff') format('woff');
+      font-weight: normal;
+      font-display: swap;
+    }
 
-  /* ===== Responsive App Container ===== */
-  #appFrame{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
-    box-shadow: 0 20px 60px rgba(60,30,110,0.15);
-  }
+    :root {
+      --bg-top: #efe7ff;
+      --bg-bottom: #d9c7ff;
+      --purple-deep: #6c4bd6;
+      --purple-mid: #8f6ef0;
+      --lilac: #c9b6ff;
+      --ink: #2a1f4d;
+      --ink-soft: #6b5f96;
+      --gold: #ffd66b;
+      --card: #ffffff;
+      --notch-color: #dccdfa;
+    }
 
-  @media (min-width: 600px) and (min-height: 700px) {
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
     body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'Goyang', "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+      background: radial-gradient(circle at 50% 50%, #f6f0ff 0%, #dcd0ff 100%);
+      color: var(--ink);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: 'Goyang', "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+    }
+
+    /* ===== Responsive App Container ===== */
+    #appFrame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+      box-shadow: 0 20px 60px rgba(60, 30, 110, 0.15);
+    }
+
+    @media (min-width: 600px) and (min-height: 700px) {
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #appFrame {
+        width: 480px;
+        height: 88vh;
+        max-height: 880px;
+        min-height: 720px;
+        border-radius: 32px;
+        border: 8px solid rgba(255, 255, 255, 0.65);
+        box-shadow: 0 30px 90px rgba(60, 30, 110, 0.28);
+      }
+    }
+
+    /* Compact layouts for landscape mode on desktops/tablets to prevent clipping and take up 100% screen */
+    @media (orientation: landscape) {
+      body {
+        display: block !important;
+        background: none;
+      }
+
+      #appFrame {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        min-height: 100% !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      #lockLabel {
+        font-size: 44px !important;
+        margin-bottom: 24px !important;
+      }
+
+      .machineBody {
+        width: 50vh !important;
+        max-width: 360px !important;
+        padding: 16px 16px 20px !important;
+      }
+
+      .machineDome {
+        margin-bottom: 12px !important;
+      }
+
+      .glassBall {
+        width: 48vh !important;
+        height: 48vh !important;
+        max-width: 360px !important;
+        max-height: 360px !important;
+      }
+
+      .capsuleBig {
+        width: 36vh !important;
+        height: 36vh !important;
+        max-width: 240px !important;
+        max-height: 240px !important;
+      }
+
+      .couponCard {
+        height: 24vh !important;
+        max-height: 180px !important;
+      }
+
+      .couponName {
+        font-size: 24px !important;
+      }
+
+      h1.title {
+        font-size: 28px !important;
+        margin: 16px 16px 6px !important;
+      }
+
+      .resultTitle {
+        font-size: 26px !important;
+        margin-top: 18px !important;
+      }
+
+      .brandFooter {
+        padding: 10px 16px !important;
+      }
+
+      .resultBottom {
+        padding: 10px 20px 16px !important;
+      }
+
+      .topbar {
+        padding: 12px 22px 4px !important;
+      }
+
+      .ticketRow {
+        margin: 2px 0 4px !important;
+      }
+
+      .bottomArea {
+        padding: 0 20px 16px !important;
+      }
+
+      .spinBtn {
+        padding: 16px !important;
+        font-size: 18px !important;
+      }
+    }
+
+    /* Scaling for short screens to avoid component overlap */
+    @media (max-height: 660px) {
+      h1.title {
+        font-size: 20px !important;
+        margin: 12px 16px 4px !important;
+      }
+
+      .ticketRow {
+        margin: 2px 0 2px !important;
+        gap: 12px !important;
+      }
+
+      .spinBtn {
+        padding: 14px !important;
+        font-size: 15px !important;
+      }
+
+      .glassBall {
+        width: 25vh !important;
+        height: 25vh !important;
+      }
+
+      .capsuleBig {
+        width: 22vh !important;
+        height: 22vh !important;
+      }
+
+      .couponCard {
+        height: 15vh !important;
+      }
+
+      .resultTitle {
+        font-size: 20px !important;
+        margin-top: 6px !important;
+      }
+
+      .brandFooter {
+        padding: 10px 16px !important;
+      }
+    }
+
+    /* Content area taking up all space above footer */
+    #appContent {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    /* ---------- shared ---------- */
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease;
+    }
+
+    .screen.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 22px 4px;
+    }
+
+    .backBtn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, .55);
+      font-size: 21px;
+      color: var(--ink);
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
     }
-    #appFrame {
-      width: 480px;
-      height: 88vh;
-      max-height: 880px;
-      min-height: 720px;
-      border-radius: 32px;
-      border: 8px solid rgba(255, 255, 255, 0.65);
-      box-shadow: 0 30px 90px rgba(60, 30, 110, 0.28);
-    }
-  }
 
-  /* Compact layouts for landscape mode on desktops/tablets to prevent clipping and take up 100% screen */
-  @media (orientation: landscape) {
-    body {
-      display: block !important;
-      background: none;
+    .ticketBadge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: #fff;
+      padding: 9px 16px;
+      border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(108, 75, 214, .18);
+      font-weight: 700;
+      font-size: 16px;
+      white-space: nowrap;
     }
-    #appFrame {
-      width: 100% !important;
-      height: 100% !important;
-      max-width: 100% !important;
-      max-height: 100% !important;
-      min-height: 100% !important;
-      border-radius: 0 !important;
-      border: none !important;
-      box-shadow: none !important;
+
+    .ticketBadge span.icon {
+      font-size: 17px;
     }
-    #lockLabel {
-      font-size: 44px !important;
-      margin-bottom: 24px !important;
-    }
-    .machineBody {
-      width: 50vh !important;
-      max-width: 360px !important;
-      padding: 16px 16px 20px !important;
-    }
-    .machineDome {
-      margin-bottom: 12px !important;
-    }
-    .glassBall {
-      width: 48vh !important;
-      height: 48vh !important;
-      max-width: 360px !important;
-      max-height: 360px !important;
-    }
-    .capsuleBig {
-      width: 36vh !important;
-      height: 36vh !important;
-      max-width: 240px !important;
-      max-height: 240px !important;
-    }
-    .couponCard {
-      height: 24vh !important;
-      max-height: 180px !important;
-    }
-    .couponName {
-      font-size: 24px !important;
-    }
+
     h1.title {
-      font-size: 28px !important;
-      margin: 16px 16px 6px !important;
+      text-align: center;
+      font-size: 26px;
+      line-height: 1.45;
+      font-weight: 800;
+      margin: 20px 20px 6px;
+      color: var(--ink);
     }
-    .resultTitle {
-      font-size: 26px !important;
-      margin-top: 18px !important;
+
+    /* ---------- ball / capsule component (shared look) ---------- */
+    .ballDome {
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at 32% 24%, rgba(255, 255, 255, .95), rgba(255, 255, 255, .12) 45%, rgba(255, 255, 255, .04) 70%),
+        radial-gradient(circle at 50% 62%, #f4eeff, #e2d3ff 72%);
+      box-shadow: inset 0 -18px 40px rgba(140, 100, 230, .28), inset 0 16px 30px rgba(255, 255, 255, .9), 0 18px 38px rgba(120, 80, 200, .22);
     }
-    .brandFooter {
-      padding: 10px 16px !important;
+
+    .ballField {
+      position: absolute;
+      inset: 0;
     }
-    .resultBottom {
-      padding: 10px 20px 16px !important;
+
+    .capBall {
+      position: absolute;
+      border-radius: 50%;
+      box-shadow: inset -8px -10px 16px rgba(60, 30, 110, .22), inset 6px 8px 14px rgba(255, 255, 255, .85), 0 6px 10px rgba(80, 40, 150, .22);
+      overflow: hidden;
+      animation: floaty 3.6s ease-in-out infinite;
     }
-    .topbar {
-      padding: 12px 22px 4px !important;
+
+    .capBall .half {
+      position: absolute;
+      inset: 0;
     }
+
+    .capBall .halfA {
+      background: var(--cA);
+      clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+    }
+
+    .capBall .halfB {
+      background: var(--cB);
+      clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+    }
+
+    .capBall .seam {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2.5px;
+      background: rgba(255, 255, 255, .8);
+      transform: translateX(-50%);
+    }
+
+    .capBall .gloss {
+      position: absolute;
+      width: 38%;
+      height: 24%;
+      top: 13%;
+      left: 16%;
+      background: rgba(255, 255, 255, .92);
+      border-radius: 50%;
+      filter: blur(1.5px);
+    }
+
+    @keyframes floaty {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-5px) rotate(3deg);
+      }
+    }
+
+    /* ---------- main screen ---------- */
+    .orbWrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+    }
+
+    .glassBall {
+      width: min(260px, 35vh, 60vw);
+      height: min(260px, 35vh, 60vw);
+      max-width: 300px;
+      max-height: 300px;
+      min-width: 160px;
+      min-height: 160px;
+    }
+
+    .glassBall .ballField {
+      inset: 6%;
+    }
+
     .ticketRow {
-      margin: 2px 0 4px !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin: 4px 0 6px;
     }
+
+    .ticketRow .label {
+      font-size: 14.5px;
+      color: var(--ink-soft);
+      font-weight: 700;
+    }
+
+    /* 기회 횟수 안내 뱃지 */
+    .chanceText {
+      text-align: center;
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--purple-deep);
+      background: rgba(108, 75, 214, 0.08);
+      padding: 6px 18px;
+      border-radius: 999px;
+      margin: 0 auto 8px;
+      width: fit-content;
+      border: 1px solid rgba(108, 75, 214, 0.12);
+      animation: chancePulse 2.5s infinite ease-in-out;
+    }
+    @keyframes chancePulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(108, 75, 214, 0.05); }
+      50% { transform: scale(1.03); box-shadow: 0 3px 16px rgba(108, 75, 214, 0.15); }
+    }
+
+    .stepBtn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: #fff;
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--purple-deep);
+      box-shadow: 0 3px 8px rgba(108, 75, 214, .15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .tickerWrap {
+      overflow: hidden;
+      padding: 4px 0 12px;
+      flex-shrink: 0;
+    }
+
+    .ticker {
+      display: flex;
+      gap: 10px;
+      white-space: nowrap;
+      animation: scrollTicker 60s linear infinite;
+      width: max-content;
+    }
+
+    @keyframes scrollTicker {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+
+      100% {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    .tickChip {
+      background: #fff;
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      box-shadow: 0 3px 10px rgba(108, 75, 214, .12);
+      flex: 0 0 auto;
+    }
+
+    .tickChip b {
+      color: var(--purple-deep);
+    }
+
     .bottomArea {
-      padding: 0 20px 16px !important;
+      padding: 0 20px 24px;
+      flex-shrink: 0;
     }
-    .spinBtn {
-      padding: 16px !important;
-      font-size: 18px !important;
-    }
-  }
 
-  /* Scaling for short screens to avoid component overlap */
-  @media (max-height: 660px) {
-    h1.title {
-      font-size: 20px !important;
-      margin: 12px 16px 4px !important;
-    }
-    .ticketRow {
-      margin: 2px 0 2px !important;
-      gap: 12px !important;
-    }
     .spinBtn {
-      padding: 14px !important;
-      font-size: 15px !important;
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 16px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: .3px;
+      cursor: pointer;
+      transition: transform 0.1s ease;
     }
-    .glassBall {
-      width: 25vh !important;
-      height: 25vh !important;
+
+    .spinBtn:active {
+      transform: scale(0.98);
     }
-    .capsuleBig {
-      width: 22vh !important;
-      height: 22vh !important;
+
+    .spinBtn:disabled {
+      background: #b7afcf;
+      cursor: not-allowed;
     }
-    .couponCard {
-      height: 15vh !important;
+
+    .hintText {
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      margin-top: 9px;
     }
-    .resultTitle {
-      font-size: 20px !important;
-      margin-top: 6px !important;
-    }
+
+    /* ---------- brand footer ---------- */
     .brandFooter {
-      padding: 10px 16px !important;
+      width: 100%;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      z-index: 30;
+      text-align: center;
+      flex-shrink: 0;
     }
-  }
 
-  /* Content area taking up all space above footer */
-  #appContent {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-  }
-
-  /* ---------- shared ---------- */
-  .screen{
-    position:absolute; inset:0; display:flex; flex-direction:column;
-    opacity:0; pointer-events:none; transition:opacity .35s ease;
-  }
-  .screen.active{ opacity:1; pointer-events:auto; }
-
-  .topbar{ display:flex; align-items:center; justify-content:space-between; padding:22px 22px 4px; }
-  .backBtn{
-    width:40px; height:40px; border-radius:50%; border:none;
-    background:rgba(255,255,255,.55); font-size:21px; color:var(--ink);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-  }
-  .ticketBadge{
-    display:flex; align-items:center; gap:7px;
-    background:#fff; padding:9px 16px; border-radius:999px;
-    box-shadow:0 4px 14px rgba(108,75,214,.18);
-    font-weight:700; font-size:16px; white-space:nowrap;
-  }
-  .ticketBadge span.icon{ font-size:17px; }
-
-  h1.title{
-    text-align:center; font-size:26px; line-height:1.45; font-weight:800;
-    margin:20px 20px 6px; color:var(--ink);
-  }
-
-  /* ---------- ball / capsule component (shared look) ---------- */
-  .ballDome{
-    border-radius:50%; position:relative; overflow:hidden;
-    background:radial-gradient(circle at 32% 24%, rgba(255,255,255,.95), rgba(255,255,255,.12) 45%, rgba(255,255,255,.04) 70%),
-               radial-gradient(circle at 50% 62%, #f4eeff, #e2d3ff 72%);
-    box-shadow: inset 0 -18px 40px rgba(140,100,230,.28), inset 0 16px 30px rgba(255,255,255,.9), 0 18px 38px rgba(120,80,200,.22);
-  }
-  .ballField{ position:absolute; inset:0; }
-  .capBall{
-    position:absolute; border-radius:50%;
-    box-shadow: inset -8px -10px 16px rgba(60,30,110,.22), inset 6px 8px 14px rgba(255,255,255,.85), 0 6px 10px rgba(80,40,150,.22);
-    overflow:hidden; animation:floaty 3.6s ease-in-out infinite;
-  }
-  .capBall .half{ position:absolute; inset:0; }
-  .capBall .halfA{ background:var(--cA); clip-path:polygon(0 0,50% 0,50% 100%,0 100%); }
-  .capBall .halfB{ background:var(--cB); clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%); }
-  .capBall .seam{ position:absolute; top:0; bottom:0; left:50%; width:2.5px; background:rgba(255,255,255,.8); transform:translateX(-50%); }
-  .capBall .gloss{ position:absolute; width:38%; height:24%; top:13%; left:16%; background:rgba(255,255,255,.92); border-radius:50%; filter:blur(1.5px); }
-  @keyframes floaty{
-    0%,100%{ transform:translateY(0) rotate(0deg); }
-    50%{ transform:translateY(-5px) rotate(3deg); }
-  }
-
-  /* ---------- main screen ---------- */
-  .orbWrap{ flex:1; display:flex; align-items:center; justify-content:center; min-height:0; }
-  .glassBall{
-    width: min(260px, 35vh, 60vw); height: min(260px, 35vh, 60vw);
-    max-width:300px; max-height:300px;
-    min-width:160px; min-height:160px;
-  }
-  .glassBall .ballField{ inset:6%; }
-
-  .ticketRow{ display:flex; justify-content:center; align-items:center; gap:18px; margin:4px 0 6px; }
-  .ticketRow .label{ font-size:14.5px; color:var(--ink-soft); font-weight:700; }
-  .stepBtn{
-    width:36px; height:36px; border-radius:50%; border:none; background:#fff;
-    font-size:19px; font-weight:800; color:var(--purple-deep); box-shadow:0 3px 8px rgba(108,75,214,.15);
-    display:flex; align-items:center; justify-content:center; cursor:pointer;
-  }
-
-  .tickerWrap{ overflow:hidden; padding:4px 0 12px; flex-shrink:0; }
-  .ticker{ display:flex; gap:10px; white-space:nowrap; animation:scrollTicker 30s linear infinite; width: max-content; }
-  @keyframes scrollTicker{ 0%{transform:translate3d(0,0,0);} 100%{transform:translate3d(-50%,0,0);} }
-  .tickChip{
-    background:#fff; border-radius:999px; padding:9px 16px; font-size:13px; font-weight:600;
-    color:var(--ink-soft); box-shadow:0 3px 10px rgba(108,75,214,.12); flex:0 0 auto;
-  }
-  .tickChip b{ color:var(--purple-deep); }
-
-  .bottomArea{ padding:0 20px 24px; flex-shrink:0; }
-  .spinBtn{
-    width:100%; padding:18px; border:none; border-radius:16px;
-    background:var(--ink); color:#fff; font-size:17px; font-weight:800; letter-spacing:.3px;
-    cursor:pointer; transition: transform 0.1s ease;
-  }
-  .spinBtn:active{ transform: scale(0.98); }
-  .spinBtn:disabled{ background:#b7afcf; cursor:not-allowed; }
-  .hintText{ text-align:center; font-size:12.5px; color:var(--ink-soft); margin-top:9px; }
-
-  /* ---------- brand footer ---------- */
-  .brandFooter {
-    width: 100%;
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    background: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
-    z-index: 30;
-    text-align: center;
-    flex-shrink: 0;
-  }
-  .footerLogo {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--purple-deep);
-    letter-spacing: 0.8px;
-  }
-  .logoIcon {
-    font-size: 13px;
-  }
-  .footerRights {
-    font-size: 10.5px;
-    color: var(--ink-soft);
-    font-weight: 500;
-    letter-spacing: 0.2px;
-  }
-
-  /* ---------- result screen ---------- */
-  #screenResult{ align-items:center; }
-  .resultTitle{ text-align:center; font-size:24px; font-weight:800; margin-top:34px; line-height:1.5; flex-shrink:0; }
-  .resultStage{ flex:1; width:100%; display:flex; align-items:center; justify-content:center; position:relative; min-height:0; perspective:800px; }
-
-  .capsuleBig{
-    width: 24vh; height: 24vh;
-    max-width: 190px; max-height: 190px;
-    min-width: 130px; min-height: 130px;
-    border-radius:50%; position:relative;
-    box-shadow:0 0 60px rgba(190,150,255,.7), inset -14px -16px 24px rgba(60,30,110,.25), inset 12px 14px 22px rgba(255,255,255,.9);
-    overflow:hidden;
-    animation: capsuleFloat 3s ease-in-out infinite;
-  }
-  @keyframes capsuleFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-  .capsuleBig .half{ position:absolute; inset:0; }
-  .capsuleBig .halfA{ background:linear-gradient(160deg,#ffffff,var(--cA)); clip-path:polygon(0 0,50% 0,50% 100%,0 100%); }
-  .capsuleBig .halfB{ background:linear-gradient(160deg,#ffffff,var(--cB)); clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%); }
-  .capsuleBig .seam{ position:absolute; top:0; bottom:0; left:50%; width:3px; background:rgba(255,255,255,.85); transform:translateX(-50%); }
-  .capsuleBig .gloss{ position:absolute; width:36%; height:22%; top:12%; left:16%; background:rgba(255,255,255,.92); border-radius:50%; filter:blur(2px); }
-  
-  .capsuleBig.shaking{ animation:shake3d .26s ease-in-out infinite; }
-  @keyframes shake3d{
-    0%,100%{ transform:translate(0,0) rotateY(0deg) rotateZ(0deg); }
-    25%{ transform:translate(-6px,3px) rotateY(-18deg) rotateZ(-4deg); }
-    75%{ transform:translate(6px,-3px) rotateY(18deg) rotateZ(4deg); }
-  }
-  
-  .capsuleBig.shuffling {
-    animation: shuffleSpin 2.0s cubic-bezier(0.25, 1, 0.25, 1);
-  }
-  @keyframes shuffleSpin {
-    0% { transform: scale(1) rotate(0deg); }
-    15% { transform: scale(1.12) rotate(-30deg); }
-    85% { transform: scale(1.15) rotate(1110deg); }
-    100% { transform: scale(1) rotate(1080deg); }
-  }
-
-  .capsuleBig.burst{ animation:burstPop .4s ease forwards; }
-  @keyframes burstPop{
-    0%{ transform:scale(1); opacity:1; }
-    60%{ transform:scale(1.6); opacity:.35; }
-    100%{ transform:scale(2.3); opacity:0; }
-  }
-
-  .couponCard{
-    position:absolute;
-    width: 90%; max-width: 340px;
-    height: 18vh; max-height: 150px;
-    min-height: 110px;
-    opacity:0; transform:scale(.6);
-    transition:opacity .35s ease, transform .35s cubic-bezier(.2,1.4,.4,1);
-    background:var(--card); border-radius:22px;
-    box-shadow:0 16px 36px rgba(108,75,214,.3);
-    display:flex; align-items:stretch; overflow:hidden;
-    z-index: 10;
-  }
-  .couponCard.show{
-    opacity:1; transform:scale(1);
-    animation: cardGlowPulse 2.8s infinite ease-in-out;
-  }
-  @keyframes cardGlowPulse {
-    0%, 100% {
-      box-shadow: 0 16px 36px rgba(108,75,214,.2), 0 0 15px rgba(255, 255, 255, 0.7), 0 0 30px rgba(255, 255, 255, 0.4);
+    .footerLogo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--purple-deep);
+      letter-spacing: 0.8px;
     }
-    50% {
-      box-shadow: 0 16px 45px rgba(108,75,214,0.3), 0 0 28px rgba(255, 255, 255, 0.98), 0 0 50px rgba(255, 255, 255, 0.7), 0 0 70px rgba(255, 255, 255, 0.5);
+
+    .logoIcon {
+      font-size: 13px;
     }
-  }
 
-  .couponStub{
-    flex:0 0 38%; background:linear-gradient(160deg,var(--purple-mid),var(--purple-deep));
-    display:flex; align-items:center; justify-content:center; position:relative;
-  }
-  .couponEmoji{ font-size:64px; filter:drop-shadow(0 6px 10px rgba(0,0,0,.2)); }
-  .couponStub::before, .couponStub::after{
-    content:""; position:absolute; width:20px; height:20px; border-radius:50%;
-    background:var(--notch-color); left:-10px;
-  }
-  .couponStub::before{ top:-10px; }
-  .couponStub::after{ bottom:-10px; }
-  .couponMain{ flex:1; padding:22px 18px; display:flex; flex-direction:column; justify-content:center; }
-  .couponEyebrow{ font-size:12px; font-weight:800; color:var(--purple-deep); letter-spacing:.5px; margin-bottom:8px; }
-  .couponName{ font-size:20px; font-weight:800; color:var(--ink); line-height:1.4; }
-  .dashDivider{ position:absolute; top:0; bottom:0; left:38%; width:0; border-left:2px dashed rgba(255,255,255,.6); }
-
-  .resultBottom{ padding:16px 20px 24px; display:flex; gap:10px; flex-shrink:0; width: 100%; }
-  .resultBottom button{
-    flex:1; height: 50px; border:none; border-radius:15px; font-weight:800;
-    font-size:14.5px; white-space:nowrap; overflow:visible; cursor:pointer;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  /* Blinking white glow for active result screen buttons */
-  @keyframes buttonGlowBlink {
-    0%, 100% {
-      box-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 3px 10px rgba(108,75,214,.1);
+    .footerRights {
+      font-size: 10.5px;
+      color: var(--ink-soft);
+      font-weight: 500;
+      letter-spacing: 0.2px;
     }
-    50% {
-      box-shadow: 0 0 18px rgba(255, 255, 255, 0.9), 0 0 8px rgba(255, 255, 255, 0.5), 0 3px 14px rgba(108,75,214,.2);
+
+    /* ---------- result screen ---------- */
+    #screenResult {
+      align-items: center;
     }
-  }
-  .btnClose, .btnAgain, .btnShuffleResult {
-    animation: buttonGlowBlink 2s infinite ease-in-out;
-  }
-  
-  .btnAgain{
-    background: linear-gradient(135deg, #312e81, #1e1b4b);
-    color:#fff !important;
-    box-shadow: 0 4px 14px rgba(30, 27, 75, 0.25);
-  }
-  .btnAgain:active{
-    transform: scale(0.96);
-    box-shadow: 0 2px 8px rgba(30, 27, 75, 0.15);
-  }
-  
-  .btnClose{
-    background: rgba(255, 255, 255, 0.92);
-    color: var(--ink) !important;
-    border: 1.5px solid rgba(108, 75, 214, 0.2);
-    box-shadow: 0 4px 12px rgba(108, 75, 214, 0.08);
-  }
-  .btnClose:active{
-    transform: scale(0.96);
-    background: rgba(255, 255, 255, 0.98);
-  }
-  
-  .btnShuffle, .btnShuffleResult {
-    background: linear-gradient(135deg, #8f6ef0, #6c4bd6);
-    color: #fff !important;
-    box-shadow: 0 4px 14px rgba(108,75,214,.25);
-  }
-  .btnShuffle:active, .btnShuffleResult:active {
-    transform: scale(0.96);
-    box-shadow: 0 2px 8px rgba(108,75,214,.15);
-  }
-  .btnShuffle:disabled, .btnShuffleResult:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-  
-  .btnOpenCapsule {
-    background: linear-gradient(135deg, #312e81, #1e1b4b);
-    color: #fff !important;
-    box-shadow: 0 4px 14px rgba(30, 27, 75, 0.25);
-  }
-  .btnOpenCapsule:active {
-    transform: scale(0.96);
-    box-shadow: 0 2px 8px rgba(30, 27, 75, 0.15);
-  }
-  .btnOpenCapsule:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
 
-  canvas#fx{ position:absolute; inset:0; pointer-events:none; z-index: 5; }
+    .resultTitle {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 800;
+      margin-top: 34px;
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
 
-  /* ---------- lock screen : gacha machine ---------- */
-  #lockScreen{
-    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    background:linear-gradient(180deg,var(--bg-top),var(--bg-bottom));
-    z-index:20; padding:0 20px;
-  }
-  
-  /* Glamorous Glowing Pulsing Title - Dark Purple with White Glow */
-  #lockLabel {
-    font-size: 38px;
-    font-weight: 900;
-    color: #2e1065;
-    text-align: center;
-    margin-bottom: 30px;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-    text-shadow: 
-      0 0 10px rgba(255, 255, 255, 0.95), 
-      0 0 20px rgba(143, 110, 240, 0.8), 
-      0 0 30px rgba(108, 75, 214, 0.6), 
-      0 0 40px rgba(108, 75, 214, 0.4);
-    animation: titleGlowPulse 2.5s infinite ease-in-out;
-  }
-  @keyframes titleGlowPulse {
-    0%, 100% {
-      text-shadow: 
-        0 0 8px rgba(255, 255, 255, 0.9), 
-        0 0 16px rgba(143, 110, 240, 0.7), 
-        0 0 24px rgba(108, 75, 214, 0.5);
+    .resultStage {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 0;
+      perspective: 800px;
+    }
+
+    /* 섞기용 원형 통 (결과창 중앙 배치) */
+    #resultMixContainer {
+      position: absolute;
+      z-index: 2;
+      width: min(240px, 32vh, 55vw);
+      height: min(240px, 32vh, 55vw);
+      max-width: 280px;
+      max-height: 280px;
+      min-width: 150px;
+      min-height: 150px;
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: scale(0.6);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #resultMixContainer.show {
+      opacity: 1;
       transform: scale(1);
+      pointer-events: auto;
     }
-    50% {
-      text-shadow: 
-        0 0 16px rgba(255, 255, 255, 1), 
-        0 0 32px rgba(143, 110, 240, 0.98), 
-        0 0 48px rgba(108, 75, 214, 0.85),
-        0 0 64px rgba(255, 255, 255, 0.6);
-      transform: scale(1.03);
+
+    /* 섞기 통 흔들림 - 회오리치듯 강하게 */
+    #resultMixContainer.shakingDome {
+      animation: domeVortex 0.4s ease-in-out infinite;
     }
-  }
 
-  .machineBody{
-    width: 35vh;
-    max-width: 290px;
-    min-width: 200px;
-    border-radius:30px; padding:22px 22px 26px;
-    background:linear-gradient(165deg,#ffffff,#efe4ff 60%,#e3d4ff);
-    box-shadow:0 22px 46px rgba(108,75,214,.3), inset 0 2px 0 rgba(255,255,255,.8);
-    display:flex; flex-direction:column; align-items:center; position:relative;
-  }
-  .machineDome{ width:100%; aspect-ratio:1/1; margin-bottom:18px; }
-  .machineDome .ballField{ inset:8%; }
-  
-  /* Blinking mild-glowing slot plate text styling */
-  .machineSlotPlate{
-    width:80%; background:var(--purple-deep); border-radius:14px; padding:16px 10px 14px;
-    display:flex; flex-direction:column; align-items:center; gap:9px; position:relative;
-    box-shadow:inset 0 3px 6px rgba(0,0,0,.25); overflow:visible;
-  }
-  .slot{ width:60px; height:11px; background:var(--ink); border-radius:6px; box-shadow:inset 0 2px 3px rgba(0,0,0,.5); position:relative; z-index:2; }
-  .slotLabel {
-    font-size: 14px;
-    color: #ffffff;
-    font-weight: 700;
-    letter-spacing: 0.6px;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
-    animation: slotTextBlink 1.8s infinite ease-in-out;
-  }
-  @keyframes slotTextBlink {
-    0%, 100% { opacity: 0.45; text-shadow: 0 0 2px rgba(255, 255, 255, 0.3); }
-    50% { opacity: 1; text-shadow: 0 0 6px rgba(255, 255, 255, 0.7); }
-  }
+    @keyframes domeVortex {
+      0%   { transform: scale(1)    rotate(0deg)   translate(0, 0); }
+      25%  { transform: scale(1.04) rotate(1.5deg) translate(3px, -3px); }
+      50%  { transform: scale(1)    rotate(0deg)   translate(0, 0); }
+      75%  { transform: scale(1.04) rotate(-1.5deg) translate(-3px, 3px); }
+      100% { transform: scale(1)    rotate(0deg)   translate(0, 0); }
+    }
 
-  .machineLeg{ width:60%; height:11px; background:linear-gradient(180deg,#d8c6fb,#c3adf5); border-radius:0 0 12px 12px; margin-top:-2px; }
+    /* 미니 섞기 캡슐 - JS rAF 로 위치 직접 계산 (CSS 애니메이션 없음) */
+    .mixBall {
+      position: absolute;
+      border-radius: 50%;
+      box-shadow: inset -5px -6px 10px rgba(60, 30, 110, .28), inset 4px 5px 10px rgba(255, 255, 255, .9), 0 5px 12px rgba(80, 40, 150, .3);
+      overflow: hidden;
+    }
 
-  .coin{
-    position:absolute; width:44px; height:44px; border-radius:50%; top:-64px; left:50%;
-    transform:translateX(-50%) scale(1);
-    background:radial-gradient(circle at 35% 30%, #fff6d5, var(--gold) 60%, #d8a83a 100%);
-    box-shadow:0 4px 12px rgba(0,0,0,.28);
-    opacity:0; font-size:20px; display:flex; align-items:center; justify-content:center; z-index:1;
-  }
-  .coin.drop{ animation:coinDrop .7s cubic-bezier(.5,0,.8,1) forwards; }
-  @keyframes coinDrop{
-    0%{ opacity:1; top:-64px; transform:translateX(-50%) scale(1); }
-    72%{ opacity:1; top:9px; transform:translateX(-50%) scale(1); }
-    88%{ opacity:1; top:11px; transform:translateX(-50%) scale(.45); }
-    100%{ opacity:0; top:12px; transform:translateX(-50%) scale(.1); }
-  }
-</style>
+    .mixBall .half {
+      position: absolute;
+      inset: 0;
+    }
+
+    .mixBall .halfA {
+      background: var(--cA);
+      clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+    }
+
+    .mixBall .halfB {
+      background: var(--cB);
+      clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+    }
+
+    .mixBall .seam {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1.5px;
+      background: rgba(255, 255, 255, 0.8);
+      transform: translateX(-50%);
+    }
+
+    .mixBall .gloss {
+      position: absolute;
+      width: 38%;
+      height: 24%;
+      top: 13%;
+      left: 16%;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+
+
+    .capsuleBig {
+      width: 24vh;
+      height: 24vh;
+      max-width: 190px;
+      max-height: 190px;
+      min-width: 130px;
+      min-height: 130px;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 0 60px rgba(190, 150, 255, .7), inset -14px -16px 24px rgba(60, 30, 110, .25), inset 12px 14px 22px rgba(255, 255, 255, .9);
+      overflow: hidden;
+      animation: capsuleFloat 3s ease-in-out infinite;
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .capsuleBig.hide {
+      opacity: 0;
+      transform: scale(0.6);
+      pointer-events: none;
+    }
+
+    @keyframes capsuleFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .capsuleBig .half {
+      position: absolute;
+      inset: 0;
+    }
+
+    .capsuleBig .halfA {
+      background: linear-gradient(160deg, #ffffff, var(--cA));
+      clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+    }
+
+    .capsuleBig .halfB {
+      background: linear-gradient(160deg, #ffffff, var(--cB));
+      clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+    }
+
+    .capsuleBig .seam {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: rgba(255, 255, 255, .85);
+      transform: translateX(-50%);
+    }
+
+    .capsuleBig .gloss {
+      position: absolute;
+      width: 36%;
+      height: 22%;
+      top: 12%;
+      left: 16%;
+      background: rgba(255, 255, 255, .92);
+      border-radius: 50%;
+      filter: blur(2px);
+    }
+
+    .capsuleBig.shaking {
+      animation: shake3d .26s ease-in-out infinite;
+    }
+
+    @keyframes shake3d {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotateY(0deg) rotateZ(0deg);
+      }
+
+      25% {
+        transform: translate(-6px, 3px) rotateY(-18deg) rotateZ(-4deg);
+      }
+
+      75% {
+        transform: translate(6px, -3px) rotateY(18deg) rotateZ(4deg);
+      }
+    }
+
+    .capsuleBig.shuffling {
+      animation: shuffleSpin 2.0s cubic-bezier(0.25, 1, 0.25, 1);
+    }
+
+    @keyframes shuffleSpin {
+      0% {
+        transform: scale(1) rotate(0deg);
+      }
+
+      15% {
+        transform: scale(1.12) rotate(-30deg);
+      }
+
+      85% {
+        transform: scale(1.15) rotate(1110deg);
+      }
+
+      100% {
+        transform: scale(1) rotate(1080deg);
+      }
+    }
+
+    .capsuleBig.burst {
+      animation: burstPop .4s ease forwards;
+    }
+
+    @keyframes burstPop {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      60% {
+        transform: scale(1.6);
+        opacity: .35;
+      }
+
+      100% {
+        transform: scale(2.3);
+        opacity: 0;
+      }
+    }
+
+    .couponCard {
+      position: absolute;
+      width: 90%;
+      max-width: 340px;
+      height: 18vh;
+      max-height: 150px;
+      min-height: 110px;
+      opacity: 0;
+      transform: scale(.6);
+      transition: opacity .35s ease, transform .35s cubic-bezier(.2, 1.4, .4, 1);
+      background: var(--card);
+      border-radius: 22px;
+      box-shadow: 0 16px 36px rgba(108, 75, 214, .3);
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .couponCard.show {
+      opacity: 1;
+      transform: scale(1);
+      animation: cardGlowPulse 2.8s infinite ease-in-out;
+    }
+
+    @keyframes cardGlowPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 16px 36px rgba(108, 75, 214, .2), 0 0 15px rgba(255, 255, 255, 0.7), 0 0 30px rgba(255, 255, 255, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 16px 45px rgba(108, 75, 214, 0.3), 0 0 28px rgba(255, 255, 255, 0.98), 0 0 50px rgba(255, 255, 255, 0.7), 0 0 70px rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    .couponStub {
+      flex: 0 0 38%;
+      background: linear-gradient(160deg, var(--purple-mid), var(--purple-deep));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .couponEmoji {
+      font-size: 64px;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .2));
+    }
+
+    .couponStub::before,
+    .couponStub::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--notch-color);
+      left: -10px;
+    }
+
+    .couponStub::before {
+      top: -10px;
+    }
+
+    .couponStub::after {
+      bottom: -10px;
+    }
+
+    .couponMain {
+      flex: 1;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .couponEyebrow {
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--purple-deep);
+      letter-spacing: .5px;
+      margin-bottom: 8px;
+      text-shadow: 0 1px 2px rgba(108, 75, 214, 0.12);
+    }
+
+    .couponName {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .dashDivider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 38%;
+      width: 0;
+      border-left: 2px dashed rgba(255, 255, 255, .6);
+    }
+
+    .resultBottom {
+      padding: 16px 20px 24px;
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+      width: 100%;
+    }
+
+    .resultBottom button {
+      flex: 1;
+      height: 50px;
+      border: none;
+      border-radius: 15px;
+      font-weight: 800;
+      font-size: 14.5px;
+      white-space: nowrap;
+      overflow: visible;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Blinking white glow for active result screen buttons */
+    @keyframes buttonGlowBlink {
+
+      0%,
+      100% {
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 3px 10px rgba(108, 75, 214, .1);
+      }
+
+      50% {
+        box-shadow: 0 0 18px rgba(255, 255, 255, 0.9), 0 0 8px rgba(255, 255, 255, 0.5), 0 3px 14px rgba(108, 75, 214, .2);
+      }
+    }
+
+    .btnClose,
+    .btnAgain,
+    .btnShuffleResult {
+      animation: buttonGlowBlink 2s infinite ease-in-out;
+    }
+
+    .btnAgain {
+      background: linear-gradient(135deg, #312e81, #1e1b4b);
+      color: #fff !important;
+      box-shadow: 0 4px 14px rgba(30, 27, 75, 0.25);
+    }
+
+    .btnAgain:active {
+      transform: scale(0.96);
+      box-shadow: 0 2px 8px rgba(30, 27, 75, 0.15);
+    }
+
+    .btnAgain:disabled {
+      background: #b7afcf !important;
+      color: rgba(255, 255, 255, 0.8) !important;
+      box-shadow: none !important;
+      opacity: 0.85;
+      cursor: not-allowed;
+      animation: none;
+    }
+
+    .btnClose {
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--ink) !important;
+      border: 1.5px solid rgba(108, 75, 214, 0.2);
+      box-shadow: 0 4px 12px rgba(108, 75, 214, 0.08);
+    }
+
+    .btnClose:active {
+      transform: scale(0.96);
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    .btnShuffle,
+    .btnShuffleResult {
+      background: linear-gradient(135deg, #8f6ef0, #6c4bd6);
+      color: #fff !important;
+      box-shadow: 0 4px 14px rgba(108, 75, 214, .25);
+    }
+
+    .btnShuffle:active,
+    .btnShuffleResult:active {
+      transform: scale(0.96);
+      box-shadow: 0 2px 8px rgba(108, 75, 214, .15);
+    }
+
+    .btnShuffle:disabled,
+    .btnShuffleResult:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btnOpenCapsule {
+      background: linear-gradient(135deg, #312e81, #1e1b4b);
+      color: #fff !important;
+      box-shadow: 0 4px 14px rgba(30, 27, 75, 0.25);
+    }
+
+    .btnOpenCapsule:active {
+      transform: scale(0.96);
+      box-shadow: 0 2px 8px rgba(30, 27, 75, 0.15);
+    }
+
+    .btnOpenCapsule:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    canvas#fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* ---------- lock screen : gacha machine ---------- */
+    #lockScreen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+      z-index: 20;
+      padding: 0 20px;
+    }
+
+    /* Glamorous Glowing Pulsing Title - Dark Purple with White Glow */
+    #lockLabel {
+      font-size: 38px;
+      font-weight: 900;
+      color: #2e1065;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.95),
+        0 0 20px rgba(143, 110, 240, 0.8),
+        0 0 30px rgba(108, 75, 214, 0.6),
+        0 0 40px rgba(108, 75, 214, 0.4);
+      animation: titleGlowPulse 2.5s infinite ease-in-out;
+    }
+
+    @keyframes titleGlowPulse {
+
+      0%,
+      100% {
+        text-shadow:
+          0 0 8px rgba(255, 255, 255, 0.9),
+          0 0 16px rgba(143, 110, 240, 0.7),
+          0 0 24px rgba(108, 75, 214, 0.5);
+        transform: scale(1);
+      }
+
+      50% {
+        text-shadow:
+          0 0 16px rgba(255, 255, 255, 1),
+          0 0 32px rgba(143, 110, 240, 0.98),
+          0 0 48px rgba(108, 75, 214, 0.85),
+          0 0 64px rgba(255, 255, 255, 0.6);
+        transform: scale(1.03);
+      }
+    }
+
+    .machineBody {
+      width: 35vh;
+      max-width: 290px;
+      min-width: 200px;
+      border-radius: 30px;
+      padding: 22px 22px 26px;
+      background: linear-gradient(165deg, #ffffff, #efe4ff 60%, #e3d4ff);
+      box-shadow: 0 22px 46px rgba(108, 75, 214, .3), inset 0 2px 0 rgba(255, 255, 255, .8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .machineDome {
+      width: 100%;
+      aspect-ratio: 1/1;
+      margin-bottom: 18px;
+    }
+
+    .machineDome .ballField {
+      inset: 8%;
+    }
+
+    /* Blinking mild-glowing slot plate text styling */
+    .machineSlotPlate {
+      width: 80%;
+      background: var(--purple-deep);
+      border-radius: 14px;
+      padding: 16px 10px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+      position: relative;
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, .25);
+      overflow: visible;
+    }
+
+    .slot {
+      width: 60px;
+      height: 11px;
+      background: var(--ink);
+      border-radius: 6px;
+      box-shadow: inset 0 2px 3px rgba(0, 0, 0, .5);
+      position: relative;
+      z-index: 2;
+    }
+
+    .slotLabel {
+      font-size: 14px;
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+      animation: slotTextBlink 1.8s infinite ease-in-out;
+    }
+
+    @keyframes slotTextBlink {
+
+      0%,
+      100% {
+        opacity: 0.45;
+        text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+      }
+
+      50% {
+        opacity: 1;
+        text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    .machineLeg {
+      width: 60%;
+      height: 11px;
+      background: linear-gradient(180deg, #d8c6fb, #c3adf5);
+      border-radius: 0 0 12px 12px;
+      margin-top: -2px;
+    }
+
+    .coin {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      top: -64px;
+      left: 50%;
+      transform: translateX(-50%) scale(1);
+      background: radial-gradient(circle at 35% 30%, #fff6d5, var(--gold) 60%, #d8a83a 100%);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .28);
+      opacity: 0;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .coin.drop {
+      animation: coinDrop .7s cubic-bezier(.5, 0, .8, 1) forwards;
+    }
+
+    @keyframes coinDrop {
+      0% {
+        opacity: 1;
+        top: -64px;
+        transform: translateX(-50%) scale(1);
+      }
+
+      72% {
+        opacity: 1;
+        top: 9px;
+        transform: translateX(-50%) scale(1);
+      }
+
+      88% {
+        opacity: 1;
+        top: 11px;
+        transform: translateX(-50%) scale(.45);
+      }
+
+      100% {
+        opacity: 0;
+        top: 12px;
+        transform: translateX(-50%) scale(.1);
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div id="appFrame">
-  <!-- Content Area (covers everything above footer) -->
-  <div id="appContent">
-  
-    <!-- ===== hidden gate : capsule machine ===== -->
-    <div id="lockScreen">
-      <div id="lockLabel">두근두근 캡슐 SHOP</div>
-      <div class="machineBody" id="machineZone">
-        <div class="machineDome ballDome">
-          <div class="ballField" id="lockBallField"></div>
-        </div>
-        <div class="machineSlotPlate">
-          <div class="slot"></div>
-          <div class="slotLabel">🪙 동전을 넣어 시작하세요.</div>
-        </div>
-        <div class="machineLeg"></div>
-      </div>
-    </div>
+  <div id="appFrame">
+    <!-- Content Area (covers everything above footer) -->
+    <div id="appContent">
 
-    <!-- ===== main app ===== -->
-    <div id="app">
-      <div id="screenMain" class="screen active">
-        <div class="topbar">
-          <button class="backBtn" onclick="relock()">‹</button>
-          <div class="ticketBadge"><span class="icon">🍀</span><span id="ticketCount">15</span>장</div>
-        </div>
-
-        <h1 class="title">청소면제권 5장이면<br>캡슐 하나를 열 수 있어요</h1>
-
-        <div class="ticketRow">
-          <button class="stepBtn" onclick="adjustTicket(-5)">−</button>
-          <span class="label">보유 청소면제권</span>
-          <button class="stepBtn" onclick="adjustTicket(5)">＋</button>
-        </div>
-
-        <div class="orbWrap">
-          <div class="glassBall ballDome">
-            <div class="ballField" id="orbBalls"></div>
+      <!-- ===== hidden gate : capsule machine ===== -->
+      <div id="lockScreen">
+        <div id="lockLabel">두근두근 캡슐 SHOP</div>
+        <div class="machineBody" id="machineZone">
+          <div class="machineDome ballDome">
+            <div class="ballField" id="lockBallField"></div>
           </div>
-        </div>
-
-        <div class="tickerWrap">
-          <div class="ticker" id="tickerRow"></div>
-        </div>
-
-        <div class="bottomArea">
-          <button class="spinBtn" id="spinBtn" onclick="startSpin()">캡슐 열기 (5장 사용)</button>
-          <div class="hintText">청소면제권 5장 = 캡슐 1회 · 확률은 캡슐마다 랜덤이에요</div>
+          <div class="machineSlotPlate">
+            <div class="slot"></div>
+            <div class="slotLabel">🪙 동전을 넣어 시작하세요.</div>
+          </div>
+          <div class="machineLeg"></div>
         </div>
       </div>
 
-      <div id="screenResult" class="screen">
-        <div class="topbar" style="width: 100%; justify-content: flex-start; padding: 22px 22px 0; z-index: 15;">
-          <button class="backBtn" onclick="closeResult()">‹</button>
-        </div>
-        <div class="resultTitle" id="resultTitleText" style="margin-top: 12px;">두근두근<br>내가 오늘 받을 상품은?</div>
-        <div class="resultStage">
-          <div class="capsuleBig" id="capsule" onclick="capsuleTapOpen()" style="cursor: pointer;">
-            <div class="half halfA"></div><div class="half halfB"></div>
-            <div class="seam"></div><div class="gloss"></div>
+      <!-- ===== main app ===== -->
+      <div id="app">
+        <div id="screenMain" class="screen active">
+          <div class="topbar">
+            <button class="backBtn" onclick="relock()">‹</button>
+            <div class="ticketBadge"><span class="icon">🍀</span><span id="ticketCount">15</span>장</div>
           </div>
-          <div class="couponCard" id="resultCard">
-            <div class="couponStub"><span class="couponEmoji" id="resultEmoji"></span></div>
-            <div class="dashDivider"></div>
-            <div class="couponMain">
-              <div class="couponEyebrow">🎉 축하해요! 당첨 쿠폰</div>
-              <div class="couponName" id="resultName"></div>
+
+          <h1 class="title">청소면제권 5장이면<br>캡슐 하나를 열 수 있어요</h1>
+
+          <div class="ticketRow">
+            <button class="stepBtn" onclick="adjustTicket(-5)">−</button>
+            <span class="label">보유 청소면제권</span>
+            <button class="stepBtn" onclick="adjustTicket(5)">＋</button>
+          </div>
+
+          <!-- 기회 횟수 표시 배너 -->
+          <div class="chanceText" id="chanceCountText"></div>
+
+          <div class="orbWrap">
+            <div class="glassBall ballDome">
+              <div class="ballField" id="orbBalls"></div>
             </div>
           </div>
-          <canvas id="fx"></canvas>
+
+          <div class="tickerWrap">
+            <div class="ticker" id="tickerRow"></div>
+          </div>
+
+          <div class="bottomArea">
+            <button class="spinBtn" id="spinBtn" onclick="startSpin()">캡슐 열기 (5장 사용)</button>
+            <div class="hintText">청소면제권 5장 = 캡슐 1회 · 확률은 캡슐마다 랜덤이에요</div>
+          </div>
         </div>
-        
-        <!-- Buttons shown before the capsule is opened -->
-        <div class="resultBottom" id="preOpenButtons" style="display: flex;">
-          <button class="btnShuffle" onclick="shuffleAction()">🔮 랜덤 섞기</button>
-          <button class="btnOpenCapsule" onclick="capsuleTapOpen()">✨ 바로 열기</button>
-        </div>
-        
-        <!-- Buttons shown after the capsule is opened -->
-        <div class="resultBottom" id="resultButtons" style="display: none;">
-          <button class="btnClose" onclick="closeResult()">닫기</button>
-          <button class="btnShuffleResult" onclick="shuffleResultAction()">🔮 랜덤 섞기</button>
-          <button class="btnAgain" id="btnAgainSpin" onclick="startSpin()">한 번 더 열기</button>
+
+        <div id="screenResult" class="screen">
+          <div class="topbar" style="width: 100%; justify-content: flex-start; padding: 22px 22px 0; z-index: 15;">
+            <button class="backBtn" onclick="closeResult()">‹</button>
+          </div>
+          <div class="resultTitle" id="resultTitleText" style="margin-top: 12px;">두근두근<br>내가 오늘 받을 상품은?</div>
+          <div class="resultStage">
+            <!-- 섞기 애니메이션용 원형 통 -->
+            <div class="glassBall ballDome" id="resultMixContainer">
+              <div class="ballField" id="resultMixBalls"></div>
+            </div>
+
+            <div class="capsuleBig" id="capsule" onclick="capsuleTapOpen()" style="cursor: pointer;">
+              <div class="half halfA"></div>
+              <div class="half halfB"></div>
+              <div class="seam"></div>
+              <div class="gloss"></div>
+            </div>
+            <div class="couponCard" id="resultCard">
+              <div class="couponStub"><span class="couponEmoji" id="resultEmoji"></span></div>
+              <div class="dashDivider"></div>
+              <div class="couponMain">
+                <div class="couponEyebrow" id="resultEyebrow">🎉 축하해요! 당첨 쿠폰</div>
+                <div class="couponName" id="resultName"></div>
+              </div>
+            </div>
+            <canvas id="fx"></canvas>
+          </div>
+
+          <!-- Buttons shown before the capsule is opened -->
+          <div class="resultBottom" id="preOpenButtons" style="display: flex;">
+            <button class="btnShuffle" onclick="shuffleAction()">🔮 랜덤 섞기</button>
+            <button class="btnOpenCapsule" onclick="capsuleTapOpen()">✨ 바로 열기</button>
+          </div>
+
+          <!-- Buttons shown after the capsule is opened -->
+          <div class="resultBottom" id="resultButtons" style="display: none;">
+            <button class="btnClose" onclick="closeResult()">닫기</button>
+            <button class="btnShuffleResult" onclick="shuffleResultAction()">🔮 랜덤 섞기</button>
+            <button class="btnAgain" id="btnAgainSpin" onclick="startSpin()">한 번 더 열기</button>
+          </div>
         </div>
       </div>
+
     </div>
-    
+
+    <!-- Professional Glassmorphic Footer -->
+    <div class="brandFooter">
+      <div class="footerLogo"><span class="logoIcon">🎬</span>MINARI STUDIO</div>
+      <div class="footerRights">© 2026 minari ssam. All right reserced.</div>
+    </div>
   </div>
 
-  <!-- Professional Glassmorphic Footer -->
-  <div class="brandFooter">
-    <div class="footerLogo"><span class="logoIcon">🎬</span>MINARI STUDIO</div>
-    <div class="footerRights">© 2026 minari ssam. All right reserced.</div>
-  </div>
-</div>
+  <script>
+    /* =========================================================
+       상품 목록 (가중치 = 제시된 확률 값을 그대로 사용, 상대비율로 정규화됨)
+    ========================================================= */
+    const PRIZES = [
+      { name: "빙고 1개 패스권", emoji: "🎟️", weight: 1 },
+      { name: "청소면제권 1장", emoji: "🧹", weight: 3 },
+      { name: "청소면제권 2장", emoji: "🧹", weight: 3 },
+      { name: "청소면제권 3장", emoji: "🧹", weight: 2 },
+      { name: "청소면제권 5장", emoji: "🧹", weight: 2 },
+      { name: "소소한 과자 1개", emoji: "🍪", weight: 10 },
+      { name: "담임쌤과 사진 촬영권", emoji: "📷", weight: 3 },
+      { name: "담임쌤 친필 싸인권", emoji: "✏️", weight: 3 },
+      { name: "매점 상품권 1,000원", emoji: "💵", weight: 1 },
+      { name: "하리보 젤리 1봉지", emoji: "🐻", weight: 10 },
+      { name: "내 옆자리 1명 PICK", emoji: "🪑", weight: 2 },
+      { name: "내 앞뒤옆 4자리 PICK", emoji: "✨", weight: 1 },
+      { name: "음료수 1개", emoji: "🥤", weight: 5 },
+      { name: "꽝", emoji: "💥", weight: 3 },
+      { name: "지각 3번 리셋", emoji: "⏰", weight: 1 },
+      { name: "램프의 요정 소원권", emoji: "🧞", weight: 0.2 },
+      { name: "한 번 더 뽑기", emoji: "🔁", weight: 1 },
+    ];
+    const TOTAL_WEIGHT = PRIZES.reduce((s, p) => s + p.weight, 0);
 
-<script>
-/* =========================================================
-   상품 목록 (가중치 = 제시된 확률 값을 그대로 사용, 상대비율로 정규화됨)
-========================================================= */
-const PRIZES = [
-  { name:"빙고 1개 패스권",              emoji:"🎟️", weight:1   },
-  { name:"청소면제권 1장 되돌려주기",     emoji:"🧹", weight:3   },
-  { name:"청소면제권 2장 되돌려주기",     emoji:"🧹", weight:3   },
-  { name:"청소면제권 3장 되돌려주기",     emoji:"🧹", weight:2   },
-  { name:"청소면제권 5장 되돌려주기",     emoji:"🧹", weight:2   },
-  { name:"소소한 과자 1개",              emoji:"🍪", weight:10  },
-  { name:"담임쌤과 사진 촬영권",          emoji:"📷", weight:3   },
-  { name:"담임쌤 친필 싸인권",           emoji:"✏️", weight:3   },
-  { name:"매점 상품권 1,000원",          emoji:"💵", weight:1   },
-  { name:"하리보 젤리 1봉지",            emoji:"🐻", weight:10  },
-  { name:"내 옆자리 1명 PICK",           emoji:"🪑", weight:2   },
-  { name:"내 앞뒤옆 4자리 PICK",         emoji:"✨", weight:1   },
-  { name:"음료수 1개",                  emoji:"🥤", weight:5   },
-  { name:"꽝",                         emoji:"💥", weight:3   },
-  { name:"지각 3번 리셋",                emoji:"⏰", weight:1   },
-  { name:"램프의 요정 소원권",           emoji:"🧞", weight:0.2 },
-  { name:"한 번 더 뽑기",               emoji:"🔁", weight:1   },
-];
-const TOTAL_WEIGHT = PRIZES.reduce((s,p)=>s+p.weight,0);
-
-// Fisher-Yates array shuffling
-function shufflePrizes() {
-  for (let i = PRIZES.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = PRIZES[i];
-    PRIZES[i] = PRIZES[j];
-    PRIZES[j] = temp;
-  }
-}
-
-function pickPrize(){
-  let r = Math.random() * TOTAL_WEIGHT;
-  for(const p of PRIZES){
-    if(r < p.weight) return p;
-    r -= p.weight;
-  }
-  return PRIZES[PRIZES.length-1];
-}
-
-/* =========================================================
-   티켓(청소면제권) 상태 - 5장 단위
-========================================================= */
-let tickets = 15;
-function renderTickets(){ document.getElementById('ticketCount').textContent = tickets; refreshSpinBtn(); }
-function adjustTicket(n){ tickets = Math.max(0, tickets+n); renderTickets(); }
-function refreshSpinBtn(){
-  const btn = document.getElementById('spinBtn');
-  const enough = tickets >= 5;
-  btn.disabled = !enough;
-  btn.textContent = enough ? "캡슐 열기 (5장 사용)" : "청소면제권이 부족해요";
-}
-
-/* =========================================================
-   유리구슬 속 캡슐 배치 (참고 이미지와 동일한 구성)
-========================================================= */
-const BALL_LAYOUT = [
-  {x:32,y:14,s:34,cA:'#eaf6ff',cB:'#59b9ec'},
-  {x:58,y:12,s:32,cA:'#eaf6ff',cB:'#4fa9e6'},
-  {x:12,y:32,s:30,cA:'#f4ecff',cB:'#b79af3'},
-  {x:40,y:32,s:36,cA:'#f4ecff',cB:'#a78bfa'},
-  {x:68,y:34,s:32,cA:'#ffffff',cB:'#dbe6f5'},
-  {x:2, y:52,s:32,cA:'#eaf6ff',cB:'#59b9ec'},
-  {x:28,y:56,s:34,cA:'#ffffff',cB:'#dbe6f5'},
-  {x:54,y:56,s:34,cA:'#f4ecff',cB:'#a78bfa'},
-  {x:78,y:50,s:30,cA:'#eaf6ff',cB:'#4fa9e6'},
-  {x:38,y:74,s:30,cA:'#f4ecff',cB:'#b79af3'},
-];
-
-function buildBallField(containerId){
-  const wrap = document.getElementById(containerId);
-  if(!wrap) return;
-  wrap.innerHTML = '';
-  BALL_LAYOUT.forEach((b,i)=>{
-    const el = document.createElement('div');
-    el.className = 'capBall';
-    el.style.left = b.x+'%';
-    el.style.top = b.y+'%';
-    el.style.width = b.s+'%';
-    el.style.height = b.s+'%';
-    el.style.setProperty('--cA', b.cA);
-    el.style.setProperty('--cB', b.cB);
-    el.style.animationDelay = (i*0.18)+'s';
-    el.innerHTML = '<div class="half halfA"></div><div class="half halfB"></div><div class="seam"></div><div class="gloss"></div>';
-    wrap.appendChild(el);
-  });
-}
-
-/* 뽑기 캡슐 색상 - 매번 랜덤 */
-const CAPSULE_COLOR_PAIRS = [
-  ['#eaf6ff','#4fa9e6'],
-  ['#f4ecff','#a78bfa'],
-  ['#fff0f7','#ff8fc0'],
-  ['#eafff4','#5fd694'],
-  ['#fff8e6','#ffc94d'],
-  ['#f2f5ff','#98a6d8'],
-];
-function randomCapsuleColors(){
-  return CAPSULE_COLOR_PAIRS[Math.floor(Math.random()*CAPSULE_COLOR_PAIRS.length)];
-}
-
-const recentSample = ["민준 🍪 소소한 과자","도윤 🥤 음료수","시우 🧞 램프의 요정!","하준 💥 꽝","지호 🐻 하리보 젤리","준서 🪑 옆자리 PICK"];
-function buildTicker(){
-  const row = document.getElementById('tickerRow');
-  const items = [...recentSample, ...recentSample, ...recentSample, ...recentSample];
-  row.innerHTML = items.map(t=>`<div class="tickChip"><b>${t.split(' ')[0]}</b> ${t.slice(t.indexOf(' ')+1)} 당첨!</div>`).join('');
-}
-
-/* =========================================================
-   사운드 (Web Audio API - 외부 파일 없이 합성)
-========================================================= */
-let actx;
-function audioCtx(){ if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)(); return actx; }
-
-function playSuspense(){
-  const ctx = audioCtx();
-  const dur = 1.6;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'sawtooth';
-  osc.frequency.setValueAtTime(140, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(420, ctx.currentTime+dur);
-  gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.09, ctx.currentTime+0.2);
-  for(let t=0;t<dur;t+=0.12){
-    gain.gain.exponentialRampToValueAtTime(0.11, ctx.currentTime+t);
-    gain.gain.exponentialRampToValueAtTime(0.05, ctx.currentTime+t+0.06);
-  }
-  gain.gain.exponentialRampToValueAtTime(0.14, ctx.currentTime+dur);
-  osc.connect(gain); gain.connect(ctx.destination);
-  osc.start(); osc.stop(ctx.currentTime+dur);
-}
-
-function playWin(){
-  const ctx = audioCtx();
-  const now = ctx.currentTime;
-  
-  // Base chord: C major 9 (C4, E4, G4, B4, D5) -> frequencies: 261.63, 329.63, 392.00, 493.88, 587.33
-  const chord = [261.63, 329.63, 392.00, 493.88, 587.33];
-  
-  // 1. Warm synthesizer pad chord for rich harmonic background
-  chord.forEach((freq, idx) => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.type = idx % 2 === 0 ? 'triangle' : 'sine';
-    osc.frequency.setValueAtTime(freq, now);
-    osc.detune.setValueAtTime((Math.random() - 0.5) * 8, now);
-    
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.12, now + 0.1);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.start(now);
-    osc.stop(now + 2.0);
-  });
-  
-  // 2. Sparkling crystalline arpeggio (magical chime notes)
-  const chimeNotes = [523.25, 587.33, 659.25, 783.99, 1046.5, 1174.66, 1318.51, 1567.98];
-  chimeNotes.forEach((freq, idx) => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, now + idx * 0.06);
-    
-    gain.gain.setValueAtTime(0, now + idx * 0.06);
-    gain.gain.linearRampToValueAtTime(0.08, now + idx * 0.06 + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.4);
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.start(now + idx * 0.06);
-    osc.stop(now + idx * 0.06 + 0.5);
-  });
-  
-  // 3. Uplifting sweeping swoosh sound
-  const sweepOsc = ctx.createOscillator();
-  const sweepGain = ctx.createGain();
-  sweepOsc.type = 'sine';
-  sweepOsc.frequency.setValueAtTime(150, now);
-  sweepOsc.frequency.exponentialRampToValueAtTime(800, now + 0.4);
-  
-  sweepGain.gain.setValueAtTime(0, now);
-  sweepGain.gain.linearRampToValueAtTime(0.1, now + 0.15);
-  sweepGain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-  
-  sweepOsc.connect(sweepGain);
-  sweepGain.connect(ctx.destination);
-  sweepOsc.start(now);
-  sweepOsc.stop(now + 0.7);
-}
-
-function playCoin(){
-  const ctx = audioCtx();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type='square'; osc.frequency.setValueAtTime(880, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime+0.15);
-  gain.gain.setValueAtTime(0.12, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.25);
-  osc.connect(gain); gain.connect(ctx.destination);
-  osc.start(); osc.stop(ctx.currentTime+0.25);
-}
-
-// Rapid satisfying wooden clicks/rustles to simulate shuffling
-function playShuffleSound() {
-  const ctx = audioCtx();
-  const now = ctx.currentTime;
-  
-  // Play 24 clicks over 2.0 seconds (i.e. every 0.08s)
-  for (let i = 0; i < 24; i++) {
-    const time = now + i * 0.08;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(300 + Math.random() * 400, time);
-    osc.frequency.exponentialRampToValueAtTime(100, time + 0.06);
-    
-    gain.gain.setValueAtTime(0.06, time);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.06);
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.start(time);
-    osc.stop(time + 0.07);
-  }
-}
-
-function vibrate(pattern){ if(navigator.vibrate) navigator.vibrate(pattern); }
-
-/* =========================================================
-   화면 전환
-========================================================= */
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-function relock(){
-  document.getElementById('app').style.display='none';
-  document.getElementById('lockScreen').style.display='flex';
-  gateTaps = 0;
-}
-
-/* =========================================================
-   뽑기 진행
-========================================================= */
-let spinning = false;
-let isCapsuleOpened = false;
-let isShuffling = false;
-
-function startSpin(){
-  if(spinning) return;
-  const againBtn = document.getElementById('btnAgainSpin');
-  const isFree = againBtn.dataset.free === '1';
-  if(!isFree){
-    if(tickets < 5) return;
-    tickets -= 5; renderTickets();
-  }
-  againBtn.dataset.free = '0';
-  spinning = true;
-  isCapsuleOpened = false;
-  
-  // Transition to result screen
-  showScreen('screenResult');
-  
-  // Setup button views for pre-open interactive state
-  document.getElementById('preOpenButtons').style.display = 'flex';
-  document.getElementById('resultButtons').style.display = 'none';
-  
-  const card = document.getElementById('resultCard');
-  card.classList.remove('show');
-  
-  const capsule = document.getElementById('capsule');
-  capsule.className = 'capsuleBig'; // Default floating state
-  capsule.style.opacity = 1;
-  capsule.style.transform = 'scale(1)';
-  
-  const colors = randomCapsuleColors();
-  capsule.style.setProperty('--cA', colors[0]);
-  capsule.style.setProperty('--cB', colors[1]);
-  
-  document.getElementById('resultTitleText').innerHTML = "두근두근<br>내가 오늘 받을 상품은?";
-  
-  // Stop any ongoing canvas animations
-  stopCanvasLoop();
-}
-
-function shuffleAction() {
-  if (isShuffling || isCapsuleOpened) return;
-  isShuffling = true;
-  
-  const shuffleBtn = document.querySelector('.btnShuffle');
-  const openBtn = document.querySelector('.btnOpenCapsule');
-  shuffleBtn.disabled = true;
-  openBtn.disabled = true;
-  
-  const capsule = document.getElementById('capsule');
-  capsule.className = 'capsuleBig shuffling';
-  
-  playShuffleSound();
-  vibrate([30, 30, 30]);
-  
-  const title = document.getElementById('resultTitleText');
-  title.innerHTML = "열심히 쿠폰 섞는 중...🌀";
-  
-  shufflePrizes();
-  
-  setTimeout(() => {
-    capsule.className = 'capsuleBig';
-    title.innerHTML = "쿠폰이 신나게 섞였습니다! 🍀<br>어서 캡슐을 열어보세요!";
-    
-    shuffleBtn.disabled = false;
-    openBtn.disabled = false;
-    isShuffling = false;
-  }, 2000);
-}
-
-function shuffleResultAction() {
-  if (isShuffling) return;
-  
-  // Hide coupon card
-  const card = document.getElementById('resultCard');
-  card.classList.remove('show');
-  
-  // Reset capsule visibility
-  const capsule = document.getElementById('capsule');
-  capsule.style.opacity = 1;
-  capsule.style.transform = 'scale(1)';
-  capsule.className = 'capsuleBig shuffling';
-  
-  isCapsuleOpened = false;
-  isShuffling = true;
-  
-  // Show pre-open buttons, hide final result buttons
-  const shuffleBtn = document.querySelector('.btnShuffle');
-  const openBtn = document.querySelector('.btnOpenCapsule');
-  shuffleBtn.disabled = true;
-  openBtn.disabled = true;
-  
-  document.getElementById('preOpenButtons').style.display = 'flex';
-  document.getElementById('resultButtons').style.display = 'none';
-  
-  // Update status title
-  const title = document.getElementById('resultTitleText');
-  title.innerHTML = "열심히 쿠폰 섞는 중...🌀";
-  
-  // Audio/Vibration
-  playShuffleSound();
-  vibrate([30, 30, 30]);
-  
-  // Shuffle array
-  shufflePrizes();
-  
-  // Stop continuous canvas animations
-  stopCanvasLoop();
-  
-  setTimeout(() => {
-    capsule.className = 'capsuleBig';
-    title.innerHTML = "쿠폰이 신나게 섞였습니다! 🍀<br>어서 캡슐을 열어보세요!";
-    
-    shuffleBtn.disabled = false;
-    openBtn.disabled = false;
-    isShuffling = false;
-  }, 2000);
-}
-
-function capsuleTapOpen() {
-  if (isShuffling || isCapsuleOpened) return;
-  isCapsuleOpened = true;
-  
-  // Hide pre-open button overlay immediately
-  document.getElementById('preOpenButtons').style.display = 'none';
-  
-  const capsule = document.getElementById('capsule');
-  capsule.className = 'capsuleBig shaking';
-  
-  const title = document.getElementById('resultTitleText');
-  title.innerHTML = "두근두근... 과연 결과는?";
-  
-  vibrate([40,60,40,60,120]);
-  playSuspense();
-
-  setTimeout(()=>{
-    const prize = pickPrize();
-    capsule.className = 'capsuleBig burst';
-    vibrate([15,40,15,40,200]);
-    playWin();
-    
-    // Start canvas particle looping system
-    startCanvasLoop();
-    launchConfetti();
-    
-    setTimeout(()=>{
-      capsule.style.opacity = 0;
-      
-      const card = document.getElementById('resultCard');
-      document.getElementById('resultEmoji').textContent = prize.emoji;
-      document.getElementById('resultName').textContent = prize.name;
-      card.classList.add('show');
-      
-      // Reveal final option buttons
-      document.getElementById('resultButtons').style.display = 'flex';
-      
-      const againBtn = document.getElementById('btnAgainSpin');
-      if(prize.name === "한 번 더 뽑기"){
-        againBtn.textContent = "무료 재도전";
-        againBtn.dataset.free = '1';
-      } else {
-        againBtn.textContent = "한 번 더 열기";
-        againBtn.dataset.free = '0';
+    // Fisher-Yates array shuffling
+    function shufflePrizes() {
+      for (let i = PRIZES.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = PRIZES[i];
+        PRIZES[i] = PRIZES[j];
+        PRIZES[j] = temp;
       }
-      spinning = false;
-    }, 420);
-  }, 1650);
-}
-
-function closeResult(){
-  // If they didn't open the capsule yet, refund the tickets!
-  if (!isCapsuleOpened) {
-    const againBtn = document.getElementById('btnAgainSpin');
-    const isFree = againBtn.dataset.free === '1';
-    if (!isFree && spinning) {
-      tickets += 5;
-      renderTickets();
     }
-  }
-  showScreen('screenMain');
-  stopCanvasLoop();
-  spinning = false;
-  isCapsuleOpened = false;
-  isShuffling = false;
-}
 
-/* =========================================================
-   컨페티 & Ambient Sparkle 시스템 (canvas)
-========================================================= */
-let particles = [];
-let canvasAnimId = null;
-let canvasLoopActive = false;
+    function pickPrize() {
+      let r = Math.random() * TOTAL_WEIGHT;
+      for (const p of PRIZES) {
+        if (r < p.weight) return p;
+        r -= p.weight;
+      }
+      return PRIZES[PRIZES.length - 1];
+    }
 
-function initCanvasFX() {
-  const canvas = document.getElementById('fx');
-  if(!canvas) return;
-  const stage = document.getElementById('screenResult').getBoundingClientRect();
-  canvas.width = stage.width;
-  canvas.height = stage.height;
-}
+    /* =========================================================
+       티켓(청소면제권) 상태 - 5장 단위
+    ========================================================= */
+    let tickets = 15;
 
-// Draw a beautiful star shape with glow
-function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius, color, alpha) {
-  let rot = Math.PI / 2 * 3;
-  let x = cx;
-  let y = cy;
-  let step = Math.PI / spikes;
+    function refreshResultAgainBtn() {
+      const againBtn = document.getElementById('btnAgainSpin');
+      if (!againBtn) return;
+      const isFree = againBtn.dataset.free === '1';
+      if (isFree) {
+        againBtn.disabled = false;
+        againBtn.textContent = "무료 재도전";
+        againBtn.style.opacity = '';
+      } else {
+        const enough = tickets >= 5;
+        againBtn.disabled = !enough;
+        againBtn.textContent = enough ? "한 번 더 열기" : "청소면제권이 부족해요";
+        if (!enough) {
+          againBtn.style.opacity = 0.6;
+        } else {
+          againBtn.style.opacity = '';
+        }
+      }
+    }
 
-  ctx.save();
-  ctx.beginPath();
-  ctx.moveTo(cx, cy - outerRadius);
-  for (let i = 0; i < spikes; i++) {
-    x = cx + Math.cos(rot) * outerRadius;
-    y = cy + Math.sin(rot) * outerRadius;
-    ctx.lineTo(x, y);
-    rot += step;
+    function renderTickets() {
+      document.getElementById('ticketCount').textContent = tickets;
 
-    x = cx + Math.cos(rot) * innerRadius;
-    y = cy + Math.sin(rot) * innerRadius;
-    ctx.lineTo(x, y);
-    rot += step;
-  }
-  ctx.lineTo(cx, cy - outerRadius);
-  ctx.closePath();
-  ctx.fillStyle = color;
-  ctx.globalAlpha = alpha;
-  
-  // Outer glowing aura
-  ctx.shadowColor = color;
-  ctx.shadowBlur = 8;
-  
-  ctx.fill();
-  ctx.restore();
-}
+      // 기회 횟수 계산 및 렌더링
+      const chances = Math.floor(tickets / 5);
+      const chanceTextEl = document.getElementById('chanceCountText');
+      if (chanceTextEl) {
+        chanceTextEl.textContent = `총 ${chances}회 뽑기 가능 🪙`;
+      }
 
-function launchConfetti(){
-  const canvas = document.getElementById('fx');
-  if (!canvas) return;
-  if (canvas.width === 0 || canvas.height === 0) {
-    initCanvasFX();
-  }
-  const colors = ['#8f6ef0','#5cc7f2','#ffd66b','#ff9ecf','#b6f0c9'];
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
-  
-  // 1. Explosion burst: standard squares
-  for(let i=0; i<60; i++){
-    particles.push({
-      type: 'rect',
-      x: centerX,
-      y: centerY,
-      vx: (Math.random() - 0.5) * 14,
-      vy: (Math.random() - 1.3) * 12,
-      size: 4 + Math.random() * 6,
-      color: colors[i % colors.length],
-      rot: Math.random() * Math.PI,
-      vr: (Math.random() - 0.5) * 0.4,
-      life: 0,
-      maxLife: 80 + Math.random() * 40
-    });
-  }
-  
-  // 2. Explosion burst: shiny stars
-  const starColors = ['#ffd66b', '#ffed9e', '#ffffff'];
-  for(let i=0; i<25; i++){
-    particles.push({
-      type: 'star',
-      x: centerX,
-      y: centerY,
-      vx: (Math.random() - 0.5) * 10,
-      vy: (Math.random() - 1.1) * 10,
-      size: 6 + Math.random() * 8,
-      color: starColors[i % starColors.length],
-      rot: Math.random() * Math.PI,
-      vr: (Math.random() - 0.5) * 0.2,
-      life: 0,
-      maxLife: 90 + Math.random() * 30
-    });
-  }
-}
+      refreshSpinBtn();
+      refreshResultAgainBtn();
+    }
 
-function startCanvasLoop() {
-  if (canvasLoopActive) return;
-  canvasLoopActive = true;
-  
-  const canvas = document.getElementById('fx');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  
-  function updateFrame() {
-    if (!canvasLoopActive) return;
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Spawn ambient floating sparkles around/behind the card
-    if (Math.random() < 0.12) {
-      const colors = ['#ffd66b', '#ffffff', '#c9b6ff', '#eaf6ff'];
-      particles.push({
-        type: 'sparkle',
-        x: 40 + Math.random() * (canvas.width - 80),
-        y: canvas.height * 0.65 + (Math.random() - 0.5) * 60,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: -0.8 - Math.random() * 1.5,
-        size: 3 + Math.random() * 4,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        rot: Math.random() * Math.PI,
-        vr: (Math.random() - 0.5) * 0.05,
-        life: 0,
-        maxLife: 120 + Math.random() * 60
+    function adjustTicket(n) { tickets = Math.max(0, tickets + n); renderTickets(); }
+    function refreshSpinBtn() {
+      const btn = document.getElementById('spinBtn');
+      const enough = tickets >= 5;
+      btn.disabled = !enough;
+      btn.textContent = enough ? "캡슐 열기 (5장 사용)" : "청소면제권이 부족해요";
+    }
+
+    /* =========================================================
+       유리구슬 속 캡슐 배치 (참고 이미지와 동일한 구성)
+    ========================================================= */
+    const BALL_LAYOUT = [
+      { x: 32, y: 14, s: 34, cA: '#eaf6ff', cB: '#59b9ec' },
+      { x: 58, y: 12, s: 32, cA: '#eaf6ff', cB: '#4fa9e6' },
+      { x: 12, y: 32, s: 30, cA: '#f4ecff', cB: '#b79af3' },
+      { x: 40, y: 32, s: 36, cA: '#f4ecff', cB: '#a78bfa' },
+      { x: 68, y: 34, s: 32, cA: '#ffffff', cB: '#dbe6f5' },
+      { x: 2, y: 52, s: 32, cA: '#eaf6ff', cB: '#59b9ec' },
+      { x: 28, y: 56, s: 34, cA: '#ffffff', cB: '#dbe6f5' },
+      { x: 54, y: 56, s: 34, cA: '#f4ecff', cB: '#a78bfa' },
+      { x: 78, y: 50, s: 30, cA: '#eaf6ff', cB: '#4fa9e6' },
+      { x: 38, y: 74, s: 30, cA: '#f4ecff', cB: '#b79af3' },
+    ];
+
+    function buildBallField(containerId) {
+      const wrap = document.getElementById(containerId);
+      if (!wrap) return;
+      wrap.innerHTML = '';
+      BALL_LAYOUT.forEach((b, i) => {
+        const el = document.createElement('div');
+        el.className = 'capBall';
+        el.style.left = b.x + '%';
+        el.style.top = b.y + '%';
+        el.style.width = b.s + '%';
+        el.style.height = b.s + '%';
+        el.style.setProperty('--cA', b.cA);
+        el.style.setProperty('--cB', b.cB);
+        el.style.animationDelay = (i * 0.18) + 's';
+        el.innerHTML = '<div class="half halfA"></div><div class="half halfB"></div><div class="seam"></div><div class="gloss"></div>';
+        wrap.appendChild(el);
       });
     }
-    
-    // Update and draw all particles
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.life++;
-      
-      if (p.life >= p.maxLife) {
-        particles.splice(i, 1);
-        continue;
+
+    /* 캡슐통 구슬 색상과 동일한 팔레트 - 색감 통일 */
+    const CAPSULE_COLOR_PAIRS = [
+      ['#eaf6ff', '#59b9ec'],
+      ['#eaf6ff', '#4fa9e6'],
+      ['#f4ecff', '#b79af3'],
+      ['#f4ecff', '#a78bfa'],
+      ['#ffffff', '#dbe6f5'],
+    ];
+    function randomCapsuleColors() {
+      return CAPSULE_COLOR_PAIRS[Math.floor(Math.random() * CAPSULE_COLOR_PAIRS.length)];
+    }
+
+    const recentSample = [
+      "민준 🎟️ 빙고 1개 패스권",
+      "도윤 🧹 청소면제권 1장",
+      "시우 🧹 청소면제권 2장",
+      "하준 🧹 청소면제권 3장",
+      "지호 🧹 청소면제권 5장",
+      "준서 🍪 소소한 과자 1개",
+      "서준 📷 담임쌤과 사진 촬영권",
+      "예준 ✏️ 담임쌤 친필 싸인권",
+      "주원 💵 매점 상품권 1,000원",
+      "하은 🐻 하리보 젤리 1봉지",
+      "서윤 🪑 내 옆자리 1명 PICK",
+      "지우 ✨ 내 앞뒤옆 4자리 PICK",
+      "지아 🥤 음료수 1개",
+      "연우 💥 꽝",
+      "유준 ⏰ 지각 3번 리셋",
+      "다은 🧞 램프의 요정 소원권",
+      "우진 🔁 한 번 더 뽑기"
+    ];
+    function buildTicker() {
+      const row = document.getElementById('tickerRow');
+      const items = [...recentSample, ...recentSample, ...recentSample, ...recentSample];
+      row.innerHTML = items.map(t => `<div class="tickChip"><b>${t.split(' ')[0]}</b> ${t.slice(t.indexOf(' ') + 1)} 당첨!</div>`).join('');
+    }
+
+    /* =========================================================
+       사운드 (Web Audio API - 외부 파일 없이 합성)
+    ========================================================= */
+    let actx;
+    function audioCtx() { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); return actx; }
+
+    function playSuspense() {
+      const ctx = audioCtx();
+      const dur = 1.6;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(140, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(420, ctx.currentTime + dur);
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.09, ctx.currentTime + 0.2);
+      for (let t = 0; t < dur; t += 0.12) {
+        gain.gain.exponentialRampToValueAtTime(0.11, ctx.currentTime + t);
+        gain.gain.exponentialRampToValueAtTime(0.05, ctx.currentTime + t + 0.06);
       }
-      
-      // Burst elements fall, ambient sparkles float up
-      if (p.type === 'rect' || p.type === 'star') {
-        p.vy += 0.32;
-        p.vx *= 0.98;
-      } else {
-        p.vx += Math.sin(p.life * 0.05) * 0.02; // Sway
+      gain.gain.exponentialRampToValueAtTime(0.14, ctx.currentTime + dur);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + dur);
+    }
+
+    function playWin() {
+      const ctx = audioCtx();
+      const now = ctx.currentTime;
+
+      // Base chord: C major 9 (C4, E4, G4, B4, D5) -> frequencies: 261.63, 329.63, 392.00, 493.88, 587.33
+      const chord = [261.63, 329.63, 392.00, 493.88, 587.33];
+
+      // 1. Warm synthesizer pad chord for rich harmonic background
+      chord.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = idx % 2 === 0 ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+        osc.detune.setValueAtTime((Math.random() - 0.5) * 8, now);
+
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.12, now + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 2.0);
+      });
+
+      // 2. Sparkling crystalline arpeggio (magical chime notes)
+      const chimeNotes = [523.25, 587.33, 659.25, 783.99, 1046.5, 1174.66, 1318.51, 1567.98];
+      chimeNotes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+
+        gain.gain.setValueAtTime(0, now + idx * 0.06);
+        gain.gain.linearRampToValueAtTime(0.08, now + idx * 0.06 + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.4);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now + idx * 0.06);
+        osc.stop(now + idx * 0.06 + 0.5);
+      });
+
+      // 3. Uplifting sweeping swoosh sound
+      const sweepOsc = ctx.createOscillator();
+      const sweepGain = ctx.createGain();
+      sweepOsc.type = 'sine';
+      sweepOsc.frequency.setValueAtTime(150, now);
+      sweepOsc.frequency.exponentialRampToValueAtTime(800, now + 0.4);
+
+      sweepGain.gain.setValueAtTime(0, now);
+      sweepGain.gain.linearRampToValueAtTime(0.1, now + 0.15);
+      sweepGain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+
+      sweepOsc.connect(sweepGain);
+      sweepGain.connect(ctx.destination);
+      sweepOsc.start(now);
+      sweepOsc.stop(now + 0.7);
+    }
+
+    function playCoin() {
+      const ctx = audioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square'; osc.frequency.setValueAtTime(880, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.12, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.25);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + 0.25);
+    }
+
+    // 강렬한 회오리 효과음 - 저음 웅웅 + 딸깍 + 상승 스윕
+    function playShuffleSound() {
+      const ctx = audioCtx();
+      const now = ctx.currentTime;
+
+      // 1. 저음 웅웅거리는 드론 (2초간 지속)
+      const droneOsc = ctx.createOscillator();
+      const droneGain = ctx.createGain();
+      droneOsc.type = 'sawtooth';
+      droneOsc.frequency.setValueAtTime(60, now);
+      droneOsc.frequency.linearRampToValueAtTime(90, now + 1.0);
+      droneOsc.frequency.linearRampToValueAtTime(70, now + 2.0);
+      droneGain.gain.setValueAtTime(0, now);
+      droneGain.gain.linearRampToValueAtTime(0.12, now + 0.15);
+      droneGain.gain.linearRampToValueAtTime(0.10, now + 1.8);
+      droneGain.gain.exponentialRampToValueAtTime(0.001, now + 2.1);
+      droneOsc.connect(droneGain); droneGain.connect(ctx.destination);
+      droneOsc.start(now); droneOsc.stop(now + 2.2);
+
+      // 2. 빠른 딸깍 연타 (50회, 2초)
+      for (let i = 0; i < 50; i++) {
+        const t = now + i * 0.04;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const pitch = 200 + Math.random() * 600;
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(pitch, t);
+        osc.frequency.exponentialRampToValueAtTime(pitch * 0.5, t + 0.035);
+        gain.gain.setValueAtTime(0.09, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.038);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.04);
       }
-      
-      p.x += p.vx;
-      p.y += p.vy;
-      p.rot += p.vr;
-      
-      const alpha = Math.max(0, 1 - (p.life / p.maxLife));
-      
-      if (p.type === 'rect') {
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rot);
-        ctx.globalAlpha = alpha;
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-        ctx.restore();
-      } else if (p.type === 'star') {
-        drawStar(ctx, p.x, p.y, 5, p.size, p.size * 0.4, p.color, alpha);
-      } else if (p.type === 'sparkle') {
-        drawStar(ctx, p.x, p.y, 4, p.size, p.size * 0.25, p.color, alpha);
+
+      // 3. 점점 상승하는 스윕 (회오리 느낌)
+      const swOsc = ctx.createOscillator();
+      const swGain = ctx.createGain();
+      swOsc.type = 'sine';
+      swOsc.frequency.setValueAtTime(100, now);
+      swOsc.frequency.exponentialRampToValueAtTime(1200, now + 1.8);
+      swGain.gain.setValueAtTime(0, now);
+      swGain.gain.linearRampToValueAtTime(0.07, now + 0.3);
+      swGain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+      swOsc.connect(swGain); swGain.connect(ctx.destination);
+      swOsc.start(now); swOsc.stop(now + 2.1);
+
+      // 4. 중간에 펑! 하는 타격음
+      const impOsc = ctx.createOscillator();
+      const impGain = ctx.createGain();
+      impOsc.type = 'square';
+      impOsc.frequency.setValueAtTime(180, now + 0.9);
+      impOsc.frequency.exponentialRampToValueAtTime(40, now + 1.1);
+      impGain.gain.setValueAtTime(0.18, now + 0.9);
+      impGain.gain.exponentialRampToValueAtTime(0.001, now + 1.15);
+      impOsc.connect(impGain); impGain.connect(ctx.destination);
+      impOsc.start(now + 0.9); impOsc.stop(now + 1.2);
+    }
+
+    function vibrate(pattern) { if (navigator.vibrate) navigator.vibrate(pattern); }
+
+    /* =========================================================
+       화면 전환
+    ========================================================= */
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+    function relock() {
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('lockScreen').style.display = 'flex';
+      gateTaps = 0;
+    }
+
+    /* =========================================================
+       뽑기 진행
+    ========================================================= */
+    let spinning = false;
+    let isCapsuleOpened = false;
+    let isShuffling = false;
+
+    /* 결과 화면용 회오리 궤도 섞기 캡슐 빌더 - JS rAF 로 실제 원형 궤도 */
+    function buildResultMixField() {
+      // 이전 애니메이션 취소
+      if (window._mixAnimId) { cancelAnimationFrame(window._mixAnimId); window._mixAnimId = null; }
+
+      const wrap = document.getElementById('resultMixBalls');
+      if (!wrap) return;
+      wrap.innerHTML = '';
+
+      // 캡슐통 구슬과 동일한 팔레트 (CAPSULE_COLOR_PAIRS와 동일)
+      const capsuleColors = CAPSULE_COLOR_PAIRS;
+
+      // 3개 궤도 레인 (r·size는 컨테이너 대비 0~1 비율)
+      const lanes = [
+        { r: 0.15, size: 0.23, period: 0.65, count: 3 },  // 내부 (빠름)
+        { r: 0.29, size: 0.20, period: 0.95, count: 4 },  // 중간
+        { r: 0.40, size: 0.17, period: 1.30, count: 4 },  // 외곽 (느림)
+      ];
+
+      let colorIdx = 0;
+
+      const capsules = [];
+      lanes.forEach((lane) => {
+        for (let i = 0; i < lane.count; i++) {
+          const el = document.createElement('div');
+          el.className = 'mixBall';
+          el.style.width  = (lane.size * 100) + '%';
+          el.style.height = (lane.size * 100) + '%';
+          // 초기 위치 (중심 - 나중에 rAF가 덮어씀)
+          el.style.left = '0%';
+          el.style.top  = '0%';
+          const colors = capsuleColors[colorIdx % capsuleColors.length];
+          colorIdx++;
+          el.style.setProperty('--cA', colors[0]);
+          el.style.setProperty('--cB', colors[1]);
+          el.innerHTML = '<div class="half halfA"></div><div class="half halfB"></div><div class="seam"></div><div class="gloss"></div>';
+          wrap.appendChild(el);
+
+          const startAngle = (2 * Math.PI / lane.count) * i;
+          capsules.push({ el, r: lane.r, period: lane.period, startAngle, size: lane.size });
+        }
+      });
+
+      function animate(ts) {
+        const t = ts / 1000;
+        capsules.forEach(cap => {
+          const angle = cap.startAngle + (2 * Math.PI / cap.period) * t;
+          // cx, cy 는 컨테이너 중심(0.5) 기준 0~1 좌표
+          const cx = 0.5 + cap.r * Math.cos(angle);
+          const cy = 0.5 + cap.r * Math.sin(angle);
+          // 캡슐 top-left 위치 (중심에서 size/2 빼기)
+          cap.el.style.left = ((cx - cap.size / 2) * 100).toFixed(2) + '%';
+          cap.el.style.top  = ((cy - cap.size / 2) * 100).toFixed(2) + '%';
+        });
+        window._mixAnimId = requestAnimationFrame(animate);
+      }
+
+      window._mixAnimId = requestAnimationFrame(animate);
+    }
+
+    function startSpin() {
+      if (spinning) return;
+      const againBtn = document.getElementById('btnAgainSpin');
+      const isFree = againBtn.dataset.free === '1';
+      if (!isFree) {
+        if (tickets < 5) return;
+        tickets -= 5; renderTickets();
+      }
+      againBtn.dataset.free = '0';
+      spinning = true;
+      isCapsuleOpened = false;
+
+      // Transition to result screen
+      showScreen('screenResult');
+
+      // Setup button views for pre-open interactive state
+      document.getElementById('preOpenButtons').style.display = 'flex';
+      document.getElementById('resultButtons').style.display = 'none';
+
+      const card = document.getElementById('resultCard');
+      card.classList.remove('show');
+
+      // 섞기 통 숨김 상태 보장 및 초기화
+      const mixContainer = document.getElementById('resultMixContainer');
+      mixContainer.classList.remove('show', 'shakingDome');
+      mixContainer.innerHTML = '<div class="ballField" id="resultMixBalls"></div>';
+
+      const capsule = document.getElementById('capsule');
+      capsule.className = 'capsuleBig'; // Default floating state
+      capsule.style.opacity = '';
+      capsule.style.transform = '';
+
+      const colors = randomCapsuleColors();
+      capsule.style.setProperty('--cA', colors[0]);
+      capsule.style.setProperty('--cB', colors[1]);
+
+      document.getElementById('resultTitleText').innerHTML = "두근두근<br>내가 오늘 받을 상품은?";
+
+      // Stop any ongoing canvas animations
+      stopCanvasLoop();
+    }
+
+    function shuffleAction() {
+      if (isShuffling || isCapsuleOpened) return;
+      isShuffling = true;
+
+      const shuffleBtn = document.querySelector('.btnShuffle');
+      const openBtn = document.querySelector('.btnOpenCapsule');
+      shuffleBtn.disabled = true;
+      openBtn.disabled = true;
+
+      // 큰 캡슐 숨기고, 섞기 통 띄우기
+      const capsule = document.getElementById('capsule');
+      capsule.classList.add('hide');
+
+      const mixContainer = document.getElementById('resultMixContainer');
+      mixContainer.classList.add('show', 'shakingDome');
+      buildResultMixField();
+
+      playShuffleSound();
+      vibrate([30, 30, 30]);
+
+      const title = document.getElementById('resultTitleText');
+      title.innerHTML = "열심히 쿠폰 섞는 중...🌀";
+
+      shufflePrizes();
+
+      setTimeout(() => {
+        // 섞기 통 숨기고, 큰 캡슐 다시 띄우기
+        mixContainer.classList.remove('show', 'shakingDome');
+        if (window._mixAnimId) { cancelAnimationFrame(window._mixAnimId); window._mixAnimId = null; }
+        capsule.classList.remove('hide');
+        title.innerHTML = "쿠폰이 신나게 섞였습니다! 🍀<br>어서 캡슐을 열어보세요!";
+
+        shuffleBtn.disabled = false;
+        openBtn.disabled = false;
+        isShuffling = false;
+      }, 2000);
+    }
+
+    function shuffleResultAction() {
+      if (isShuffling) return;
+
+      // ★ 버그 수정: 결과 후 다시 섞기도 5장 차감 (뽑기 기회 추가 방지)
+      const isFreeRetry = document.getElementById('btnAgainSpin').dataset.free === '1';
+      if (!isFreeRetry) {
+        if (tickets < 5) return;  // 티켓 부족 시 막음
+        tickets -= 5;
+        renderTickets();
+      }
+      document.getElementById('btnAgainSpin').dataset.free = '0';
+
+      // Hide coupon card
+      const card = document.getElementById('resultCard');
+      card.classList.remove('show');
+
+      // Reset capsule visibility to hidden state for shuffle transition
+      const capsule = document.getElementById('capsule');
+      capsule.className = 'capsuleBig hide';
+      capsule.style.opacity = '';
+      capsule.style.transform = '';
+
+      // 섞기 통 띄우기
+      const mixContainer = document.getElementById('resultMixContainer');
+      mixContainer.classList.add('show', 'shakingDome');
+      buildResultMixField();
+
+      isCapsuleOpened = false;
+      isShuffling = true;
+
+      // Show pre-open buttons, hide final result buttons
+      const shuffleBtn = document.querySelector('.btnShuffle');
+      const openBtn = document.querySelector('.btnOpenCapsule');
+      shuffleBtn.disabled = true;
+      openBtn.disabled = true;
+
+      document.getElementById('preOpenButtons').style.display = 'flex';
+      document.getElementById('resultButtons').style.display = 'none';
+
+      // Update status title
+      const title = document.getElementById('resultTitleText');
+      title.innerHTML = "열심히 쿠폰 섞는 중...🌀";
+
+      // Audio/Vibration
+      playShuffleSound();
+      vibrate([30, 30, 30]);
+
+      // Shuffle array
+      shufflePrizes();
+
+      // Stop continuous canvas animations
+      stopCanvasLoop();
+
+      setTimeout(() => {
+        // 섞기 통 숨기고, 큰 캡슐 다시 띄우기
+        mixContainer.classList.remove('show', 'shakingDome');
+        if (window._mixAnimId) { cancelAnimationFrame(window._mixAnimId); window._mixAnimId = null; }
+        const colors = randomCapsuleColors();
+        capsule.style.setProperty('--cA', colors[0]);
+        capsule.style.setProperty('--cB', colors[1]);
+        capsule.classList.remove('hide');
+        title.innerHTML = "쿠폰이 신나게 섞였습니다! 🍀<br>어서 캡슐을 열어보세요!";
+
+        shuffleBtn.disabled = false;
+        openBtn.disabled = false;
+        isShuffling = false;
+      }, 2000);
+    }
+
+    function capsuleTapOpen() {
+      if (isShuffling || isCapsuleOpened) return;
+      isCapsuleOpened = true;
+
+      // Hide pre-open button overlay immediately
+      document.getElementById('preOpenButtons').style.display = 'none';
+
+      const capsule = document.getElementById('capsule');
+      capsule.className = 'capsuleBig shaking';
+
+      const title = document.getElementById('resultTitleText');
+      title.innerHTML = "두근두근... 과연 결과는?";
+
+      vibrate([40, 60, 40, 60, 120]);
+      playSuspense();
+
+      setTimeout(() => {
+        const prize = pickPrize();
+        capsule.className = 'capsuleBig burst';
+        vibrate([15, 40, 15, 40, 200]);
+        playWin();
+
+        // Start canvas particle looping system
+        startCanvasLoop();
+        launchConfetti();
+
+        setTimeout(() => {
+          capsule.style.opacity = 0;
+
+          const card = document.getElementById('resultCard');
+          const eyebrow = document.getElementById('resultEyebrow');
+          const emojiEl = document.getElementById('resultEmoji');
+          const nameEl = document.getElementById('resultName');
+
+          emojiEl.textContent = prize.emoji;
+
+          // 꽝/당첨 텍스트 분기 처리
+          if (prize.name === "꽝") {
+            eyebrow.textContent = "아쉬워요... 😢";
+            nameEl.textContent = "아쉽지만 다음 기회에! 꽝!";
+          } else {
+            eyebrow.textContent = "🎉 축하해요! 당첨 쿠폰";
+            nameEl.textContent = prize.name;
+          }
+          card.classList.add('show');
+
+          // Reveal final option buttons
+          document.getElementById('resultButtons').style.display = 'flex';
+
+          const againBtn = document.getElementById('btnAgainSpin');
+          if (prize.name === "한 번 더 뽑기") {
+            againBtn.textContent = "무료 재도전";
+            againBtn.dataset.free = '1';
+          } else {
+            againBtn.textContent = "한 번 더 열기";
+            againBtn.dataset.free = '0';
+          }
+
+          // 한 번 더 뽑기 버튼 비활성화 상태 갱신
+          refreshResultAgainBtn();
+
+          spinning = false;
+        }, 420);
+      }, 1650);
+    }
+
+    function closeResult() {
+      // If they didn't open the capsule yet, refund the tickets!
+      if (!isCapsuleOpened) {
+        const againBtn = document.getElementById('btnAgainSpin');
+        const isFree = againBtn.dataset.free === '1';
+        if (!isFree && spinning) {
+          tickets += 5;
+          renderTickets();
+        }
+      }
+      showScreen('screenMain');
+      stopCanvasLoop();
+      spinning = false;
+      isCapsuleOpened = false;
+      isShuffling = false;
+    }
+
+    /* =========================================================
+       컨페티 & Ambient Sparkle 시스템 (canvas)
+    ========================================================= */
+    let particles = [];
+    let canvasAnimId = null;
+    let canvasLoopActive = false;
+
+    function initCanvasFX() {
+      const canvas = document.getElementById('fx');
+      if (!canvas) return;
+      const stage = document.getElementById('screenResult').getBoundingClientRect();
+      canvas.width = stage.width;
+      canvas.height = stage.height;
+    }
+
+    // Draw a beautiful star shape with glow
+    function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius, color, alpha) {
+      let rot = Math.PI / 2 * 3;
+      let x = cx;
+      let y = cy;
+      let step = Math.PI / spikes;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - outerRadius);
+      for (let i = 0; i < spikes; i++) {
+        x = cx + Math.cos(rot) * outerRadius;
+        y = cy + Math.sin(rot) * outerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+      }
+      ctx.lineTo(cx, cy - outerRadius);
+      ctx.closePath();
+      ctx.fillStyle = color;
+      ctx.globalAlpha = alpha;
+
+      // Outer glowing aura
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 8;
+
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function launchConfetti() {
+      const canvas = document.getElementById('fx');
+      if (!canvas) return;
+      if (canvas.width === 0 || canvas.height === 0) {
+        initCanvasFX();
+      }
+      const colors = ['#8f6ef0', '#5cc7f2', '#ffd66b', '#ff9ecf', '#b6f0c9'];
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      // 1. Explosion burst: standard squares
+      for (let i = 0; i < 60; i++) {
+        particles.push({
+          type: 'rect',
+          x: centerX,
+          y: centerY,
+          vx: (Math.random() - 0.5) * 14,
+          vy: (Math.random() - 1.3) * 12,
+          size: 4 + Math.random() * 6,
+          color: colors[i % colors.length],
+          rot: Math.random() * Math.PI,
+          vr: (Math.random() - 0.5) * 0.4,
+          life: 0,
+          maxLife: 80 + Math.random() * 40
+        });
+      }
+
+      // 2. Explosion burst: shiny stars
+      const starColors = ['#ffd66b', '#ffed9e', '#ffffff'];
+      for (let i = 0; i < 25; i++) {
+        particles.push({
+          type: 'star',
+          x: centerX,
+          y: centerY,
+          vx: (Math.random() - 0.5) * 10,
+          vy: (Math.random() - 1.1) * 10,
+          size: 6 + Math.random() * 8,
+          color: starColors[i % starColors.length],
+          rot: Math.random() * Math.PI,
+          vr: (Math.random() - 0.5) * 0.2,
+          life: 0,
+          maxLife: 90 + Math.random() * 30
+        });
       }
     }
-    
-    canvasAnimId = requestAnimationFrame(updateFrame);
-  }
-  
-  canvasAnimId = requestAnimationFrame(updateFrame);
-}
 
-function stopCanvasLoop() {
-  canvasLoopActive = false;
-  if (canvasAnimId) {
-    cancelAnimationFrame(canvasAnimId);
-    canvasAnimId = null;
-  }
-  particles = [];
-  const canvas = document.getElementById('fx');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-}
+    function startCanvasLoop() {
+      if (canvasLoopActive) return;
+      canvasLoopActive = true;
 
-/* =========================================================
-   비밀 입장 장치 (화면에 안내 문구 없이 동작)
-========================================================= */
-let gateTaps = 0, gateTimer = null;
-document.getElementById('lockLabel').addEventListener('click', function(){
-  gateTaps++;
-  clearTimeout(gateTimer);
-  gateTimer = setTimeout(()=>{ gateTaps = 0; }, 2200);
-  if(gateTaps >= 5){
-    gateTaps = 0;
-    dropCoin();
-  }
-});
+      const canvas = document.getElementById('fx');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
 
-function dropCoin(){
-  const plate = document.querySelector('.machineSlotPlate');
-  const coin = document.createElement('div');
-  coin.className = 'coin drop';
-  coin.textContent = '🪙';
-  plate.appendChild(coin);
-  playCoin();
-  vibrate(30);
-  coin.addEventListener('animationend', ()=>{
-    coin.remove();
-    unlockApp();
-  });
-}
+      function updateFrame() {
+        if (!canvasLoopActive) return;
 
-function unlockApp(){
-  document.getElementById('lockScreen').style.display='none';
-  document.getElementById('app').style.display='flex';
-  showScreen('screenMain');
-  vibrate([20,30,20]);
-}
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-/* =========================================================
-   화면 비율 자동 맞춤 - 어떤 기기/PC에서도 잘리지 않게 프레임을 축소·확대
-========================================================= */
-function fitFrame(){
-  initCanvasFX();
-}
-window.addEventListener('resize', fitFrame);
-window.addEventListener('orientationchange', fitFrame);
-fitFrame();
+        // Spawn ambient floating sparkles around/behind the card
+        if (Math.random() < 0.12) {
+          const colors = ['#ffd66b', '#ffffff', '#c9b6ff', '#eaf6ff'];
+          particles.push({
+            type: 'sparkle',
+            x: 40 + Math.random() * (canvas.width - 80),
+            y: canvas.height * 0.65 + (Math.random() - 0.5) * 60,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: -0.8 - Math.random() * 1.5,
+            size: 3 + Math.random() * 4,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            rot: Math.random() * Math.PI,
+            vr: (Math.random() - 0.5) * 0.05,
+            life: 0,
+            maxLife: 120 + Math.random() * 60
+          });
+        }
 
-/* =========================================================
-   초기화
-========================================================= */
-buildBallField('lockBallField');
-buildBallField('orbBalls');
-buildTicker();
-renderTickets();
-document.getElementById('app').style.display='none';
-</script>
+        // Update and draw all particles
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.life++;
+
+          if (p.life >= p.maxLife) {
+            particles.splice(i, 1);
+            continue;
+          }
+
+          // Burst elements fall, ambient sparkles float up
+          if (p.type === 'rect' || p.type === 'star') {
+            p.vy += 0.32;
+            p.vx *= 0.98;
+          } else {
+            p.vx += Math.sin(p.life * 0.05) * 0.02; // Sway
+          }
+
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vr;
+
+          const alpha = Math.max(0, 1 - (p.life / p.maxLife));
+
+          if (p.type === 'rect') {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            ctx.restore();
+          } else if (p.type === 'star') {
+            drawStar(ctx, p.x, p.y, 5, p.size, p.size * 0.4, p.color, alpha);
+          } else if (p.type === 'sparkle') {
+            drawStar(ctx, p.x, p.y, 4, p.size, p.size * 0.25, p.color, alpha);
+          }
+        }
+
+        canvasAnimId = requestAnimationFrame(updateFrame);
+      }
+
+      canvasAnimId = requestAnimationFrame(updateFrame);
+    }
+
+    function stopCanvasLoop() {
+      canvasLoopActive = false;
+      if (canvasAnimId) {
+        cancelAnimationFrame(canvasAnimId);
+        canvasAnimId = null;
+      }
+      particles = [];
+      const canvas = document.getElementById('fx');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    /* =========================================================
+       비밀 입장 장치 (화면에 안내 문구 없이 동작)
+    ========================================================= */
+    let gateTaps = 0, gateTimer = null;
+    document.getElementById('lockLabel').addEventListener('click', function () {
+      gateTaps++;
+      clearTimeout(gateTimer);
+      gateTimer = setTimeout(() => { gateTaps = 0; }, 2200);
+      if (gateTaps >= 5) {
+        gateTaps = 0;
+        dropCoin();
+      }
+    });
+
+    function dropCoin() {
+      const plate = document.querySelector('.machineSlotPlate');
+      const coin = document.createElement('div');
+      coin.className = 'coin drop';
+      coin.textContent = '🪙';
+      plate.appendChild(coin);
+      playCoin();
+      vibrate(30);
+      coin.addEventListener('animationend', () => {
+        coin.remove();
+        unlockApp();
+      });
+    }
+
+    function unlockApp() {
+      document.getElementById('lockScreen').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      showScreen('screenMain');
+      vibrate([20, 30, 20]);
+    }
+
+    /* =========================================================
+       화면 비율 자동 맞춤 - 어떤 기기/PC에서도 잘리지 않게 프레임을 축소·확대
+    ========================================================= */
+    function fitFrame() {
+      initCanvasFX();
+    }
+    window.addEventListener('resize', fitFrame);
+    window.addEventListener('orientationchange', fitFrame);
+    fitFrame();
+
+    /* =========================================================
+       초기화
+    ========================================================= */
+    buildBallField('lockBallField');
+    buildBallField('orbBalls');
+    buildTicker();
+    renderTickets();
+    document.getElementById('app').style.display = 'none';
+  </script>
 </body>
+
 </html>
