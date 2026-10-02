@@ -488,7 +488,8 @@
       box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
     }
 
-    .prizeCard.tier-epic {
+    .prizeCard.tier-epic,
+    .prizeCard.tier-bonus {
       background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
       border: 1px solid #c084fc;
     }
@@ -585,7 +586,8 @@
       background: #fef3c7;
     }
 
-    .tier-epic .prizeRateBadge {
+    .tier-epic .prizeRateBadge,
+    .tier-bonus .prizeRateBadge {
       color: #7e22ce;
       background: #f3e8ff;
     }
@@ -1699,12 +1701,12 @@
     <div class="brandFooter">
       <div class="footerLogo"><span class="logoIcon">🎬</span>MINARI STUDIO</div>
       <div class="footerRights">© 2026 minari ssam. All right reserved. <span class="f-ver"
-          style="opacity:0.75; font-size:0.85em; margin-left:4px;">v1.2</span></div>
+          style="opacity:0.75; font-size:0.85em; margin-left:4px;">v1.3</span></div>
     </div>
   </div>
 
   <script>
-    const APP_VERSION = "v1.2";
+    const APP_VERSION = "v1.3";
     /* =========================================================
        상품 목록 (가중치 = 제시된 확률 값을 그대로 사용, 상대비율로 정규화됨)
     ========================================================= */
@@ -1724,7 +1726,7 @@
       { id: 13, name: "매점 상품권 1,000원", emoji: "💵", weight: 1, note: "매점 이용권", tier: "epic" },
       { id: 14, name: "내 앞뒤옆 4자리 PICK", emoji: "✨", weight: 1, note: "주변 자리 올픽", tier: "epic" },
       { id: 15, name: "지각 3번 리셋", emoji: "⏰", weight: 1, note: "지각 세탁 찬스", tier: "epic" },
-      { id: 16, name: "한 번 더 뽑기", emoji: "🔁", weight: 1, note: "무료 재도전권", tier: "bonus" },
+      { id: 16, name: "한 번 더 뽑기", emoji: "🔁", weight: 1, note: "무료 재도전권", tier: "epic" },
       { id: 17, name: "램프의 요정 소원권", emoji: "🧞", weight: 0.2, note: "초희귀 슈퍼 레어!", tier: "legendary" },
     ];
     const TOTAL_WEIGHT = PRIZES.reduce((s, p) => s + p.weight, 0);
