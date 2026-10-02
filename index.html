@@ -408,9 +408,19 @@
       border: 1px solid rgba(108, 75, 214, 0.12);
       animation: chancePulse 2.5s infinite ease-in-out;
     }
+
     @keyframes chancePulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(108, 75, 214, 0.05); }
-      50% { transform: scale(1.03); box-shadow: 0 3px 16px rgba(108, 75, 214, 0.15); }
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(108, 75, 214, 0.05);
+      }
+
+      50% {
+        transform: scale(1.03);
+        box-shadow: 0 3px 16px rgba(108, 75, 214, 0.15);
+      }
     }
 
     .stepBtn {
@@ -595,11 +605,25 @@
     }
 
     @keyframes domeVortex {
-      0%   { transform: scale(1)    rotate(0deg)   translate(0, 0); }
-      25%  { transform: scale(1.04) rotate(1.5deg) translate(3px, -3px); }
-      50%  { transform: scale(1)    rotate(0deg)   translate(0, 0); }
-      75%  { transform: scale(1.04) rotate(-1.5deg) translate(-3px, 3px); }
-      100% { transform: scale(1)    rotate(0deg)   translate(0, 0); }
+      0% {
+        transform: scale(1) rotate(0deg) translate(0, 0);
+      }
+
+      25% {
+        transform: scale(1.04) rotate(1.5deg) translate(3px, -3px);
+      }
+
+      50% {
+        transform: scale(1) rotate(0deg) translate(0, 0);
+      }
+
+      75% {
+        transform: scale(1.04) rotate(-1.5deg) translate(-3px, 3px);
+      }
+
+      100% {
+        transform: scale(1) rotate(0deg) translate(0, 0);
+      }
     }
 
     /* 미니 섞기 캡슐 - JS rAF 로 위치 직접 계산 (CSS 애니메이션 없음) */
@@ -1284,11 +1308,12 @@
     <!-- Professional Glassmorphic Footer -->
     <div class="brandFooter">
       <div class="footerLogo"><span class="logoIcon">🎬</span>MINARI STUDIO</div>
-      <div class="footerRights">© 2026 minari ssam. All right reserced.</div>
+      <div class="footerRights">© 2026 minari ssam. All right reserved. <span class="f-ver" style="opacity:0.75; font-size:0.85em; margin-left:4px;">v1.1</span></div>
     </div>
   </div>
 
   <script>
+    const APP_VERSION = "v1.1";
     /* =========================================================
        상품 목록 (가중치 = 제시된 확률 값을 그대로 사용, 상대비율로 정규화됨)
     ========================================================= */
@@ -1658,11 +1683,11 @@
         for (let i = 0; i < lane.count; i++) {
           const el = document.createElement('div');
           el.className = 'mixBall';
-          el.style.width  = (lane.size * 100) + '%';
+          el.style.width = (lane.size * 100) + '%';
           el.style.height = (lane.size * 100) + '%';
           // 초기 위치 (중심 - 나중에 rAF가 덮어씀)
           el.style.left = '0%';
-          el.style.top  = '0%';
+          el.style.top = '0%';
           const colors = capsuleColors[colorIdx % capsuleColors.length];
           colorIdx++;
           el.style.setProperty('--cA', colors[0]);
@@ -1684,7 +1709,7 @@
           const cy = 0.5 + cap.r * Math.sin(angle);
           // 캡슐 top-left 위치 (중심에서 size/2 빼기)
           cap.el.style.left = ((cx - cap.size / 2) * 100).toFixed(2) + '%';
-          cap.el.style.top  = ((cy - cap.size / 2) * 100).toFixed(2) + '%';
+          cap.el.style.top = ((cy - cap.size / 2) * 100).toFixed(2) + '%';
         });
         window._mixAnimId = requestAnimationFrame(animate);
       }
